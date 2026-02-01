@@ -37,19 +37,21 @@ export function Navigation() {
             {/* Club Logo */}
             <a href="#" className="flex items-center group">
               <div className="relative w-10 h-10 sm:w-12 sm:h-12">
-                {/* Logo design - rotating squares */}
-                <div className="absolute inset-0 border-2 border-[#00F2FF] rotate-45 transition-transform group-hover:rotate-[225deg] duration-700 ease-out" />
-                <div className="absolute inset-2 bg-gradient-to-br from-[#00F2FF]/30 to-[#6366F1]/30 rotate-45 transition-transform group-hover:rotate-[225deg] duration-700 ease-out" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[#00F2FF] font-bold text-sm">V</span>
-                </div>
+                {/* Circular background with light blue glow */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#00F2FF]/20 to-[#6366F1]/20 border-2 border-[#00F2FF] shadow-[0_0_20px_rgba(0,242,255,0.5)] transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(0,242,255,0.8)] group-hover:scale-105" />
+                {/* Logo image */}
+                <img
+                  src="/logo.png"
+                  alt="VMEDHA Logo"
+                  className="relative w-full h-full object-contain p-1.5 transition-transform group-hover:scale-110 duration-500 ease-out"
+                />
               </div>
             </a>
-            
+
             {/* Brand Name */}
             <a href="#" className="group">
               <h1 className="font-display text-xl sm:text-2xl font-bold tracking-wider bg-gradient-to-r from-[#00F2FF] via-[#6366F1] to-[#00F2FF] bg-clip-text text-transparent group-hover:from-[#6366F1] group-hover:via-[#00F2FF] group-hover:to-[#6366F1] transition-all duration-500">
-                Vive-Le-Tech
+                VMEDHA
               </h1>
             </a>
           </div>

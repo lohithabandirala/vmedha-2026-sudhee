@@ -59,13 +59,22 @@ export function AboutSection() {
 
         {/* Subtitle */}
         <p 
-          className="text-xl md:text-2xl text-[#7D7DBE] text-center mb-16 max-w-3xl mx-auto transition-all duration-1000 delay-200"
+          className="text-xl md:text-2xl text-[#7D7DBE] text-center mb-8 max-w-3xl mx-auto transition-all duration-1000 delay-200"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(30px)'
           }}
         >
-          We're a community of tech enthusiasts, innovators, and dreamers exploring the endless possibilities of technology.
+          {"We're a community of tech enthusiasts, innovators, and dreamers exploring the endless possibilities of technology."}
+        </p>
+        <p 
+          className="text-lg md:text-xl text-[#7D7DBE]/80 text-center mb-16 max-w-3xl mx-auto transition-all duration-1000 delay-300"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(30px)'
+          }}
+        >
+          {"We're a community of tech enthusiasts, innovators, and dreamers exploring the endless possibilities of technology."}
         </p>
 
         {/* Feature cards */}

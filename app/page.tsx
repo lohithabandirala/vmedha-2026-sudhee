@@ -4,11 +4,9 @@ import dynamic from 'next/dynamic'
 import { Navigation } from '@/components/sections/navigation'
 import { HeroSection } from '@/components/sections/hero'
 import { AboutSection } from '@/components/sections/about-section'
-import { StorytellingContainer } from '@/components/sections/story-section'
-import { StatsSection } from '@/components/sections/stats-section'
 import { ProductsSection } from '@/components/sections/products-section'
 import { TeamSection } from '@/components/sections/team-section'
-import { HiringSection } from '@/components/sections/hiring-section'
+import { RoadmapSection } from '@/components/sections/roadmap-section'
 import { Footer } from '@/components/sections/footer'
 import { ScrollProgress } from '@/components/animations/scroll-progress'
 
@@ -42,22 +40,20 @@ export default function HomePage() {
         <HeroSection />
         
         {/* About Section - Who we are */}
-        <AboutSection />
-        
-        {/* Content sections with subtle neon accents */}
-        <div id="story" className="relative">
-          <StorytellingContainer />
+        <div id="about">
+          <AboutSection />
         </div>
         
-        <StatsSection />
-        
+        {/* Events Section - Our events cards */}
         <div id="events">
           <ProductsSection />
         </div>
         
-        <TeamSection />
+        {/* Roadmap Section - The Journey timeline */}
+        <RoadmapSection />
         
-        <HiringSection />
+        {/* Team Section */}
+        <TeamSection />
         
         {/* Footer */}
         <div id="contact">

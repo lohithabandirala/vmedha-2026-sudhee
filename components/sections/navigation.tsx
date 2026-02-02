@@ -100,11 +100,11 @@ export function Navigation() {
         {/* Mobile Navigation */}
         <div
           className={cn(
-            'md:hidden overflow-hidden transition-all duration-500',
-            mobileOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+            'md:hidden overflow-hidden transition-all duration-500 absolute left-0 right-0 top-16 bg-[#080B1F] border-b border-[#3A3F7A]/30',
+            mobileOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
           )}
         >
-          <div className="flex flex-col gap-1 py-4 border-t border-[#3A3F7A]/30">
+          <div className="flex flex-col gap-1 py-4 px-4">
             {navItems.map((item) => (
               <a
                 key={item.label}

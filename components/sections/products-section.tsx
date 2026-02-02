@@ -3,7 +3,7 @@
 import { ScrollReveal } from '@/components/animations/scroll-reveal'
 import { HudFrame, HudBadge, HudButton } from '@/components/ui/hud-frame'
 
-interface ProductCardProps {
+interface EventCardProps {
   title: string
   description: string
   features: string[]
@@ -13,7 +13,7 @@ interface ProductCardProps {
   ctaHref: string
 }
 
-function ProductCard({
+function EventCard({
   title,
   description,
   features,
@@ -21,7 +21,7 @@ function ProductCard({
   index,
   ctaText,
   ctaHref
-}: ProductCardProps) {
+}: EventCardProps) {
   return (
     <ScrollReveal delay={index * 150} direction="up">
       <HudFrame
@@ -65,44 +65,44 @@ function ProductCard({
 }
 
 export function ProductsSection() {
-  const products = [
+  const events = [
     {
-      title: 'OpenCore Platform',
-      description: 'Our flagship development platform that provides the foundation for building scalable, interconnected systems.',
+      title: 'DSA MASTER CBIT',
+      description: 'Master data structures and algorithms with intensive hands-on sessions and expert guidance.',
       features: [
-        'Modular architecture',
-        'Real-time collaboration',
-        'Enterprise-grade security',
-        'API-first design'
+        'Industry mentors',
+        'Full day sessions',
+        '17th - 18th FEB',
+        'Round 1 & 2'
       ],
-      badges: ['Platform', 'Enterprise'],
-      ctaText: 'Explore Platform',
+      badges: ['Data Structures', 'Coding'],
+      ctaText: 'Register',
       ctaHref: '#'
     },
     {
-      title: 'SysFlow Analytics',
-      description: 'Advanced analytics and monitoring solution designed to give you deep insights into your systems performance.',
+      title: 'Cipherville',
+      description: 'Unlock the secrets of cryptography and cybersecurity in this immersive challenge.',
       features: [
-        'Real-time dashboards',
-        'Predictive analytics',
-        'Custom alerts',
-        'Historical data analysis'
+        'Security experts',
+        'Full day sessions',
+        '17th - 18th FEB',
+        'Round 1 & 2'
       ],
-      badges: ['Analytics', 'AI-Powered'],
-      ctaText: 'Try Analytics',
+      badges: ['Cybersecurity', 'Cryptography'],
+      ctaText: 'Register',
       ctaHref: '#'
     },
     {
-      title: 'DevConnect Suite',
-      description: 'A comprehensive toolkit for developers that streamlines workflows and enhances productivity.',
+      title: 'Ethitechmania',
+      description: 'Explore ethical technology and AI innovation across three intensive rounds of competition and learning.',
       features: [
-        'IDE integrations',
-        'Code generation',
-        'Team collaboration',
-        'CI/CD pipelines'
+        'Tech leaders',
+        'Full day sessions',
+        '17th - 18th FEB',
+        'All 3 Rounds'
       ],
-      badges: ['Developer Tools', 'Free Tier'],
-      ctaText: 'Get Started',
+      badges: ['AI/ML', 'Ethics'],
+      ctaText: 'Register',
       ctaHref: '#'
     }
   ]
@@ -119,24 +119,24 @@ export function ProductsSection() {
         {/* Section header */}
         <div className="text-center mb-16">
           <ScrollReveal>
-            <HudBadge variant="accent" className="mb-4">Our Products</HudBadge>
+            <HudBadge variant="accent" className="mb-4">Experience the Future</HudBadge>
           </ScrollReveal>
           <ScrollReveal delay={100}>
             <h2 className="text-4xl md:text-6xl font-display font-bold text-[#E6E9FF] mb-6">
-              Experience the <span className="text-[#00F2FF] text-glow-cyan">Future</span>
+              Our <span className="text-[#00F2FF] text-glow-cyan">Events</span>
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={200}>
             <p className="text-xl text-[#7D7DBE] max-w-2xl mx-auto">
-              Cutting-edge solutions designed to transform how you build and scale technology.
+              Three exciting competitions and learning experiences over 17-18 February.
             </p>
           </ScrollReveal>
         </div>
 
-        {/* Products grid */}
+        {/* Events grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product, index) => (
-            <ProductCard key={index} {...product} index={index} />
+          {events.map((event, index) => (
+            <EventCard key={index} {...event} index={index} />
           ))}
         </div>
       </div>

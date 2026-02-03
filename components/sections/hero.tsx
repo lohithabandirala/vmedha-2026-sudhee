@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { ScrollIndicator } from '@/components/animations/scroll-progress'
-import { HudBadge, HudButton } from '@/components/ui/hud-frame'
+import { HudBadge } from '@/components/ui/hud-frame'
 
 export function HeroSection() {
   const [mounted, setMounted] = useState(false)
@@ -20,7 +20,7 @@ export function HeroSection() {
   }, [])
 
   const title = 'Vive-Le-Tech'
-  const tagline = 'Explore the Cosmos of Technology'
+  const tagline = 'Long Live Tech' 
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden">
@@ -29,40 +29,42 @@ export function HeroSection() {
         {/* Deep Space Blue gradient layer */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#080B1F] via-[#1A1C3D] to-[#080B1F] opacity-80" />
         
-        {/* Main visible grid - flat */}
+        {/* Main visible grid - softened and faded toward center */}
         <div 
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(to right, rgba(0, 242, 255, 0.15) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(0, 242, 255, 0.15) 1px, transparent 1px)
+              linear-gradient(to right, rgba(0, 242, 255, 0.09) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(0, 242, 255, 0.09) 1px, transparent 1px)
             `,
             backgroundSize: '60px 60px',
-            maskImage: 'radial-gradient(ellipse 70% 50% at center, black 30%, transparent 70%)'
+            // Fade more aggressively toward the center so the grid supports rather than competes with content
+            maskImage: 'radial-gradient(ellipse 70% 50% at center, black 15%, transparent 85%)'
           }}
         />
         
-        {/* Perspective grid at bottom - futuristic floor effect */}
+        {/* Perspective grid at bottom - softened and more faded toward center */}
         <div 
           className="absolute bottom-0 left-0 right-0 h-[60vh]"
           style={{
             backgroundImage: `
-              linear-gradient(to right, rgba(0, 242, 255, 0.2) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(0, 242, 255, 0.2) 2px, transparent 2px)
+              linear-gradient(to right, rgba(0, 242, 255, 0.12) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(0, 242, 255, 0.12) 2px, transparent 2px)
             `,
             backgroundSize: '80px 40px',
             transform: 'perspective(500px) rotateX(60deg)',
             transformOrigin: 'center bottom',
-            maskImage: 'linear-gradient(to top, black 0%, transparent 80%)'
+            // Fade the floor more toward the center so content remains dominant
+            maskImage: 'linear-gradient(to top, black 0%, transparent 90%)'
           }}
         />
         
-        {/* Horizontal glow line */}
+        {/* Horizontal glow line (subtler) */}
         <div 
           className="absolute bottom-[20%] left-0 right-0 h-[2px]"
           style={{
-            background: 'linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.5), rgba(0, 210, 200, 0.5), transparent)',
-            boxShadow: '0 0 20px rgba(0, 242, 255, 0.3), 0 0 40px rgba(0, 242, 255, 0.2)'
+            background: 'linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.45), rgba(0, 210, 200, 0.38), transparent)',
+            boxShadow: '0 0 12px rgba(0, 242, 255, 0.18), 0 0 30px rgba(0, 242, 255, 0.12)'
           }}
         />
       </div>
@@ -104,7 +106,7 @@ export function HeroSection() {
         </div>
 
         {/* Main Title with gradient and glow */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-wide mb-8">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-semibold tracking-tight mb-8" style={{ textShadow: '0 6px 30px rgba(0,242,255,0.12), 0 0 40px rgba(0,242,255,0.08)'}}>
           {title.split('').map((char, index) => (
             <span
               key={index}
@@ -113,9 +115,10 @@ export function HeroSection() {
                 background: char === '-' ? 'none' : 'linear-gradient(135deg, #00F2FF 0%, #00D2C8 50%, #7D7DBE 100%)',
                 WebkitBackgroundClip: char === '-' ? 'unset' : 'text',
                 WebkitTextFillColor: char === '-' ? '#3A3F7A' : 'transparent',
-                filter: char === '-' ? 'none' : 'drop-shadow(0 0 20px rgba(0, 242, 255, 0.5))',
+                filter: char === '-' ? 'none' : 'drop-shadow(0 0 14px rgba(0, 242, 255, 0.28))',
+                letterSpacing: char === ' ' ? '0.06em' : '0.02em',
                 opacity: titleVisible ? 1 : 0,
-                transform: titleVisible ? 'translateY(0) scale(1)' : 'translateY(50px) scale(0.8)',
+                transform: titleVisible ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.985)',
                 transition: `all 700ms cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 60}ms`
               }}
             >
@@ -127,62 +130,32 @@ export function HeroSection() {
         {/* Tagline with cosmic feel */}
         <div className="overflow-hidden mb-6">
           <p
-            className="text-xl md:text-2xl font-light tracking-[0.2em] mb-2"
+            className="text-xl md:text-2xl font-medium tracking-normal mb-2"
             style={{
-              color: '#7D7DBE',
-              textShadow: '0 0 10px rgba(125, 125, 190, 0.3)',
+              color: '#E6E9FF',
+              textShadow: '0 0 8px rgba(125, 125, 190, 0.12)',
               opacity: subtitleVisible ? 1 : 0,
-              transform: subtitleVisible ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'all 800ms ease-out'
+              transform: subtitleVisible ? 'translateY(0)' : 'translateY(20px)',
+              transition: 'all 700ms ease-out'
             }}
           >
             {tagline}
           </p>
           <p
-            className="text-base md:text-lg text-[#E6E9FF]/80 tracking-wide max-w-2xl mx-auto leading-relaxed"
+            className="text-base md:text-lg text-[#E6E9FF]/85 tracking-normal max-w-xl mx-auto leading-7"
             style={{
               opacity: subtitleVisible ? 1 : 0,
-              transform: subtitleVisible ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'all 800ms ease-out 200ms'
+              transform: subtitleVisible ? 'translateY(0)' : 'translateY(20px)',
+              transition: 'all 700ms ease-out 150ms'
             }}
           >
-            Embark on a journey through innovation, where cutting-edge technology meets boundless creativity
-          </p>
+            A technology-driven event series by VMedha Club
+          </p> 
         </div>
 
-        {/* Interactive Path - Electric Cyan highlight line */}
-        <div
-          className="w-32 h-1 mb-8 rounded-full relative overflow-hidden"
-          style={{
-            background: 'linear-gradient(90deg, transparent, #00F2FF, transparent)',
-            boxShadow: '0 0 20px rgba(0, 242, 255, 0.5)',
-            opacity: subtitleVisible ? 1 : 0,
-            transition: 'all 800ms ease-out 300ms'
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-shimmer" 
-            style={{
-              animation: 'shimmer 3s ease-in-out infinite'
-            }}
-          />
-        </div>
 
-        {/* CTA Buttons with HUD styling */}
-        <div
-          className="flex flex-wrap gap-4 justify-center mb-12"
-          style={{
-            opacity: subtitleVisible ? 1 : 0,
-            transform: subtitleVisible ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 800ms ease-out 400ms'
-          }}
-        >
-          <HudButton variant="primary" href="#about">
-            Begin Journey
-          </HudButton>
-          <HudButton href="#events">
-            View Events
-          </HudButton>
-        </div>
+
+
       </div>
 
       {/* Twilight Violet Landscape/Silhouette at bottom */}
@@ -207,11 +180,14 @@ export function HeroSection() {
             fill="#3A3F7A" 
             opacity="0.6"
           />
-          {/* Front mountains */}
+          {/* Front mountains (slow movement + subtle top-edge glow to suggest roadmap start) */}
           <path 
             d="M0,150 Q100,120 250,140 T500,145 T750,135 T1000,150 T1200,140 L1200,200 L0,200 Z" 
             fill="#3A3F7A" 
             opacity="0.8"
+            stroke="rgba(0,242,255,0.06)"
+            strokeWidth={2}
+            className="animate-wave-slow"
           />
         </svg>
         
@@ -219,60 +195,45 @@ export function HeroSection() {
         <div className="h-16 bg-gradient-to-t from-[#080B1F] via-[#1A1C3D]/50 to-transparent" />
       </div>
 
-      {/* Scroll indicator with Electric Cyan */}
-      <div className="absolute bottom-24 md:bottom-32 left-1/2 -translate-x-1/2 z-20">
-        <ScrollIndicator />
-      </div>
 
-      {/* Side HUD decorations with Neon Teal accents */}
-      <div className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-3 opacity-40">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="relative"
-            style={{
-              width: '2px',
-              height: `${30 + Math.random() * 50}px`,
-              background: i % 2 === 0 ? '#00D2C8' : '#00F2FF',
-              opacity: 0.4 + Math.random() * 0.4,
-              boxShadow: `0 0 10px ${i % 2 === 0 ? 'rgba(0, 210, 200, 0.3)' : 'rgba(0, 242, 255, 0.3)'}`,
-              animation: `pulse-glow ${2 + i * 0.3}s ease-in-out infinite`
-            }}
-          />
-        ))}
-      </div>
-      <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-3 opacity-40">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="relative"
-            style={{
-              width: '2px',
-              height: `${30 + Math.random() * 50}px`,
-              background: i % 2 === 0 ? '#7D7DBE' : '#00D2C8',
-              opacity: 0.4 + Math.random() * 0.4,
-              boxShadow: `0 0 10px ${i % 2 === 0 ? 'rgba(125, 125, 190, 0.3)' : 'rgba(0, 210, 200, 0.3)'}`,
-              animation: `pulse-glow ${2.5 + i * 0.3}s ease-in-out infinite`
-            }}
-          />
-        ))}
-      </div>
+
+
 
       {/* Celestial particles/stars overlay */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(30)].map((_, i) => (
+        {/* Fewer, slower twinkles */}
+        {[...Array(18)].map((_, i) => (
           <div
             key={i}
             className="absolute rounded-full bg-[#E6E9FF]"
             style={{
               width: `${Math.random() * 3 + 1}px`,
               height: `${Math.random() * 3 + 1}px`,
-              top: `${Math.random() * 80}%`,
+              top: `${Math.random() * 75}%`,
               left: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.6 + 0.2,
-              boxShadow: '0 0 4px rgba(230, 233, 255, 0.5)',
-              animation: `twinkle ${Math.random() * 3 + 2}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`
+              opacity: 0.2 + Math.random() * 0.6,
+              boxShadow: '0 0 3px rgba(230, 233, 255, 0.35)',
+              animation: `twinkle ${Math.random() * 6 + 6}s ease-in-out infinite`,
+              animationDelay: `${Math.random() * 4}s`
+            }}
+          />
+        ))}
+
+        {/* A few slow drifting particles (anti-gravity feel) */}
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={`drift-${i}`}
+            className="absolute rounded-full bg-[#E6E9FF]"
+            style={{
+              width: `${Math.random() * 6 + 4}px`,
+              height: `${Math.random() * 6 + 4}px`,
+              top: `${60 + Math.random() * 30}%`,
+              left: `${Math.random() * 100}%`,
+              opacity: 0.2 + Math.random() * 0.5,
+              boxShadow: '0 0 8px rgba(230, 233, 255, 0.25)',
+              animation: `drift ${10 + Math.random() * 12}s linear infinite`,
+              animationDelay: `${Math.random() * 6}s`,
+              transformOrigin: 'center'
             }}
           />
         ))}

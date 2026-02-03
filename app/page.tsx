@@ -4,9 +4,8 @@ import dynamic from 'next/dynamic'
 import { Navigation } from '@/components/sections/navigation'
 import { HeroSection } from '@/components/sections/hero'
 import { AboutSection } from '@/components/sections/about-section'
-import { StorytellingContainer } from '@/components/sections/story-section'
-import { StatsSection } from '@/components/sections/stats-section'
 import { ProductsSection } from '@/components/sections/products-section'
+import { EventsSection } from '@/components/sections/events-section'
 import { TeamSection } from '@/components/sections/team-section'
 import { HiringSection } from '@/components/sections/hiring-section'
 import { Footer } from '@/components/sections/footer'
@@ -44,16 +43,9 @@ export default function HomePage() {
         {/* About Section - Who we are */}
         <AboutSection />
         
-        {/* Content sections with subtle neon accents */}
-        <div id="story" className="relative">
-          <StorytellingContainer />
-        </div>
+        {/* Story content moved into the Events section (floating cards on the spiral) */}
         
-        <StatsSection />
-        
-        <div id="events">
-          <ProductsSection />
-        </div>
+        <EventsSection />
         
         <TeamSection />
         

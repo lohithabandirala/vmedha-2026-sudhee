@@ -68,80 +68,49 @@ export function AboutSection() {
           We're a community of tech enthusiasts, innovators, and dreamers exploring the endless possibilities of technology.
         </p>
 
-        {/* Feature cards */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              title: 'Innovation',
-              icon: '💡',
-              description: 'Pushing boundaries with cutting-edge technology and creative solutions',
-              color: '#00F2FF'
-            },
-            {
-              title: 'Community',
-              icon: '🤝',
-              description: 'Building a vibrant ecosystem of learners, creators, and collaborators',
-              color: '#00D2C8'
-            },
-            {
-              title: 'Impact',
-              icon: '🚀',
-              description: 'Creating meaningful change through technology and innovation',
-              color: '#7D7DBE'
-            }
-          ].map((feature, index) => (
-            <div
-              key={feature.title}
-              className="relative group transition-all duration-700"
-              style={{
-                opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-                transitionDelay: `${400 + index * 150}ms`
-              }}
-            >
-              {/* Card background with Twilight Violet border */}
-              <div className="relative p-8 rounded-2xl border border-[#3A3F7A] bg-[#1A1C3D]/30 backdrop-blur-sm hover:border-[#00D2C8] transition-all duration-500 hover:scale-105">
-                {/* Glow effect on hover */}
-                <div 
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
-                  style={{
-                    background: `radial-gradient(circle at center, ${feature.color}20, transparent 70%)`
-                  }}
-                />
-                
-                <div className="relative z-10">
-                  {/* Icon with glow */}
-                  <div 
-                    className="text-5xl mb-4 inline-block"
-                    style={{
-                      filter: `drop-shadow(0 0 20px ${feature.color}50)`
-                    }}
-                  >
+        {/* Unified feature panel - single rounded rectangle divided into sections */}
+        <div className="max-w-5xl mx-auto rounded-2xl overflow-hidden border border-[#3A3F7A] bg-[#1A1C3D]/20 transition-all duration-700" style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(40px)' }}>
+          <div className="flex flex-col md:flex-row">
+            {[
+              {
+                title: 'Innovation',
+                icon: '💡',
+                description: 'Pushing boundaries with cutting-edge technology and creative solutions',
+                color: '#00F2FF'
+              },
+              {
+                title: 'Community',
+                icon: '🤝',
+                description: 'Building a vibrant ecosystem of learners, creators, and collaborators',
+                color: '#00D2C8'
+              },
+              {
+                title: 'Impact',
+                icon: '🚀',
+                description: 'Creating meaningful change through technology and innovation',
+                color: '#7D7DBE'
+              }
+            ].map((feature, index) => (
+              <div key={feature.title} className={`relative group flex-1 p-8 transition-all duration-500 ${index !== 0 ? 'md:border-l md:border-[#3A3F7A]/20' : ''}`} style={{ minHeight: '180px' }}>
+                {/* Section hover overlay (Neon Teal) */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none" style={{ background: 'radial-gradient(circle at center, rgba(0,210,200,0.08), transparent 60%)' }} />
+
+                <div className={`relative z-10 flex flex-col h-full ${index === 1 ? 'md:scale-[1.035]' : ''}`}>
+                  <div className="text-5xl mb-4 inline-block" style={{ filter: 'grayscale(0.2) saturate(0.85) drop-shadow(0 0 10px rgba(0,210,200,0.14))' }}>
                     {feature.icon}
                   </div>
-                  
-                  {/* Title */}
-                  <h3 className="text-2xl font-display font-bold text-[#E6E9FF] mb-4">
+
+                  <h3 className="text-2xl font-display font-bold text-[#E6E9FF] mb-2">
                     {feature.title}
                   </h3>
-                  
-                  {/* Description */}
-                  <p className="text-[#7D7DBE] leading-relaxed">
+
+                  <p className="text-[#7D7DBE] leading-relaxed mt-2 flex-1">
                     {feature.description}
                   </p>
-                  
-                  {/* Electric Cyan accent line */}
-                  <div 
-                    className="mt-6 h-1 w-0 group-hover:w-full rounded-full transition-all duration-500"
-                    style={{
-                      background: `linear-gradient(90deg, ${feature.color}, transparent)`,
-                      boxShadow: `0 0 10px ${feature.color}50`
-                    }}
-                  />
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Bottom decorative line with Electric Cyan */}
@@ -158,6 +127,13 @@ export function AboutSection() {
               animation: 'shimmer 3s ease-in-out infinite'
             }}
           />
+        </div>
+
+        {/* Soft curved divider to Events */}
+        <div className="mt-12 -mb-12 pointer-events-none">
+          <svg className="w-full" viewBox="0 0 1440 80" preserveAspectRatio="none">
+            <path d="M0,40 C360,10 1080,70 1440,40 L1440,80 L0,80 Z" fill="rgba(14,22,48,0.35)" />
+          </svg>
         </div>
       </div>
 

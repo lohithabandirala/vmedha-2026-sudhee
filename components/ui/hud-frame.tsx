@@ -101,9 +101,10 @@ export function HudButton({
   const isPrimary = variant === 'primary'
   
   const styles = {
-    background: isPrimary ? 'rgba(0, 242, 255, 0.1)' : 'transparent',
+    // Primary is a filled Electric Cyan — clear hero CTA
+    background: isPrimary ? '#00F2FF' : 'transparent',
     border: `1px solid ${isPrimary ? '#00F2FF' : '#3A3F7A'}`,
-    color: isPrimary ? '#00F2FF' : '#E6E9FF'
+    color: isPrimary ? 'var(--primary-foreground)' : '#E6E9FF'
   }
 
   const Component = href ? 'a' : 'button'
@@ -114,14 +115,15 @@ export function HudButton({
       onClick={onClick}
       className={cn(
         'relative inline-flex items-center justify-center px-6 py-3 font-medium tracking-wider uppercase transition-all duration-300',
-        'hover:shadow-[0_0_20px_rgba(0,242,255,0.3)] hover:border-[#00F2FF]',
+        // Only primary gets a soft neon-teal glow on hover — secondary stays outline-only with no glow
+        isPrimary ? 'hover:shadow-[0_8px_40px_rgba(0,210,200,0.25)] hover:border-[#00F2FF]' : 'hover:border-[#00F2FF] hover:shadow-none',
         'group overflow-hidden',
         className
       )}
       style={styles}
     >
-      {/* Animated background */}
-      <span className="absolute inset-0 bg-gradient-to-r from-[#00D2C8]/0 via-[#00F2FF]/20 to-[#00D2C8]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+      {/* Animated background (subtle for primary, inert for outline) */}
+      <span className={cn("absolute inset-0 bg-gradient-to-r from-[#00D2C8]/0 via-[#00F2FF]/20 to-[#00D2C8]/0 translate-x-[-100%] transition-transform duration-700", isPrimary && "group-hover:translate-x-[100%]")} />
       
       {/* Corner accents */}
       <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-current opacity-50" />

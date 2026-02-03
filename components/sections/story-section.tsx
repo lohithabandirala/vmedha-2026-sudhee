@@ -11,6 +11,9 @@ interface StorySectionProps {
   title: string
   description: string
   index: number
+  rounds?: string
+  timeline?: string
+  registerHref?: string
   accentColor?: 'cyan' | 'teal' | 'lavender'
 }
 
@@ -19,6 +22,9 @@ export function StorySection({
   title,
   description,
   index,
+  rounds,
+  timeline,
+  registerHref,
   accentColor = 'cyan'
 }: StorySectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
@@ -93,9 +99,18 @@ export function StorySection({
         </ScrollReveal>
 
         <ScrollReveal delay={400}>
-          <p className="text-lg md:text-xl text-[#7D7DBE] leading-relaxed max-w-2xl">
-            {description}
-          </p>
+          <div className="text-lg md:text-xl text-[#7D7DBE] leading-relaxed max-w-2xl">
+            <p>{description}</p>
+            {typeof rounds !== 'undefined' && <p className="mt-3 text-sm text-[#E6E9FF]/80">Rounds: <span className="text-[#7D7DBE]">{rounds}</span></p>}
+            {typeof timeline !== 'undefined' && <p className="mt-1 text-sm text-[#E6E9FF]/80">Timeline: <span className="text-[#7D7DBE]">{timeline}</span></p>}
+            {registerHref && (
+              <div className="mt-4">
+                <a href={registerHref} className="inline-block">
+                  <button className="btn-primary">Register Now</button>
+                </a>
+              </div>
+            )}
+          </div>
         </ScrollReveal>
 
         {/* Decorative element */}
@@ -105,9 +120,6 @@ export function StorySection({
               className="w-16 h-[2px]"
               style={{ background: `linear-gradient(90deg, ${color.primary}, transparent)` }}
             />
-            <span className="text-sm font-mono" style={{ color: color.primary }}>
-              0{index + 1}
-            </span>
           </div>
         </ScrollReveal>
       </div>
@@ -124,21 +136,30 @@ export function StorySection({
 export function StorytellingContainer() {
   const stories = [
     {
-      badge: 'The Challenge',
-      title: 'Technology should empower, not complicate',
-      description: 'In a world overwhelmed by complexity, we believe the best solutions are those that simplify. Our mission is to create technology that adapts to humans, not the other way around.',
+      badge: 'DSA Masters',
+      title: 'Data Structures & Algorithms Challenge',
+      description: 'A multi-stage coding competition testing algorithmic skill and speed.',
+      rounds: '3 Rounds',
+      timeline: 'TBA',
+      registerHref: '/register/dsa-masters',
       accentColor: 'cyan' as const
     },
     {
-      badge: 'Our Vision',
-      title: 'Building bridges between innovation and accessibility',
-      description: 'We envision a future where cutting-edge technology is accessible to everyone. Where barriers are broken down and possibilities are endless. This is not just a dream—it is what we build every day.',
+      badge: 'Cipherville',
+      title: 'Cryptography & Forensics Puzzle Hunt',
+      description: 'A challenge of wits focused on decoding, analysis, and puzzle-solving.',
+      rounds: '3 Rounds',
+      timeline: 'TBA',
+      registerHref: '/register/cipherville',
       accentColor: 'teal' as const
     },
     {
-      badge: 'The Solution',
-      title: 'Open systems for an open future',
-      description: 'OpenSys is more than a company—it is a movement. We create open, interconnected systems that empower developers, businesses, and individuals to build without limits.',
+      badge: 'Ethitech Mania',
+      title: 'Ethics, Innovation & Impact Sprint',
+      description: 'Collaborative event exploring ethical dimensions of tech through ideation and pitches.',
+      rounds: '3 Phases',
+      timeline: 'TBA',
+      registerHref: '/register/ethitech-mania',
       accentColor: 'lavender' as const
     }
   ]

@@ -37,8 +37,8 @@ export function Navigation() {
             {/* Club Logo */}
             <a href="#" className="flex items-center group">
               <div className="relative w-10 h-10 sm:w-12 sm:h-12">
-                {/* Circular background with light blue glow */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#00F2FF]/20 to-[#6366F1]/20 border-2 border-[#00F2FF] shadow-[0_0_20px_rgba(0,242,255,0.5)] transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(0,242,255,0.8)] group-hover:scale-105" />
+                {/* Circular background with light blue glow (subtle, not brighter than title) */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#00F2FF]/20 to-[#6366F1]/20 border-2 border-[#00F2FF] shadow-[0_0_12px_rgba(0,242,255,0.35)] transition-all duration-500 group-hover:shadow-[0_0_18px_rgba(0,242,255,0.45)] group-hover:scale-103" />
                 {/* Logo image */}
                 <img
                   src="/logo.png"
@@ -62,10 +62,10 @@ export function Navigation() {
               <a
                 key={item.label}
                 href={item.href}
-                className="relative text-sm font-medium tracking-wide text-[#7D7DBE] hover:text-[#00F2FF] transition-colors duration-300 group py-2"
+                className="relative text-sm font-medium tracking-wide text-[#7D7DBE]/85 hover:text-[#00F2FF] transition-colors duration-300 group py-2"
               >
                 {item.label}
-                <span className="absolute -bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-[#00F2FF] to-[#6366F1] group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-[#00F2FF] to-[#6366F1] group-hover:w-full group-hover:shadow-[0_6px_20px_rgba(0,242,255,0.12)] transition-all duration-300" />
               </a>
             ))}
           </div>
@@ -110,7 +110,7 @@ export function Navigation() {
                 key={item.label}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="px-4 py-3 text-[#7D7DBE] hover:text-[#00F2FF] hover:bg-[#00F2FF]/5 transition-all duration-300 tracking-wide font-medium rounded-lg"
+                className="px-4 py-3 text-[#7D7DBE]/85 hover:text-[#00F2FF] hover:bg-[#00F2FF]/5 transition-all duration-300 tracking-wide font-medium rounded-lg"
               >
                 {item.label}
               </a>

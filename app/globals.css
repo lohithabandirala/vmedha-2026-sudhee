@@ -269,12 +269,37 @@ html {
   }
 }
 
+/* Slow vertical drift for larger particles to create an anti-gravity feel */
+@keyframes drift {
+  0% { transform: translateY(0); opacity: 0.9; }
+  50% { opacity: 0.95; }
+  100% { transform: translateY(-40px); opacity: 0.2; }
+}
+
+@keyframes wave-slow {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
+}
+
 .animate-marquee {
   animation: marquee linear infinite;
 }
 
 .animate-float {
   animation: float 3s ease-in-out infinite;
+}
+
+/* Small helpers to apply the new animations */
+.animate-drift {
+  animation: drift 12s linear infinite;
+}
+
+.animate-wave-slow {
+  animation: wave-slow 20s ease-in-out infinite;
+  transform-origin: center;
+  /* slight top-edge glow */
+  filter: drop-shadow(0 -6px 8px rgba(0,242,255,0.06));
 }
 
 .animate-pulse-glow {
@@ -291,4 +316,218 @@ html {
 
 .animate-cosmic-drift {
   animation: cosmic-drift 20s ease-in-out infinite;
+}
+
+/* Path draw animation for Event roadmaps */
+.path-draw {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: path-draw 1400ms ease forwards;
+  filter: drop-shadow(0 6px 26px rgba(0,242,255,0.08));
+  opacity: 0.98;
+}
+
+@keyframes path-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.event-node {
+  transition: transform 180ms ease, filter 180ms ease, fill 160ms ease, opacity 200ms ease;
+  fill: #E6E9FF;
+  opacity: 0.92;
+}
+.event-node:hover {
+  transform: scale(1.12);
+  filter: drop-shadow(0 6px 12px rgba(0,210,200,0.18));
+  fill: #00F2FF;
+  opacity: 1;
+}
+
+/* Journey marker (neutral glowing node - equal importance) */
+.journey-marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1.6px solid rgba(0,242,255,0.14);
+  box-shadow: 0 0 18px rgba(0,242,255,0.06);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+@media (min-width: 768px) {
+  .journey-marker { width: 18px; height: 18px; border-width: 1.4px; }
+}
+.journey-marker:hover { transform: scale(1.06); box-shadow: 0 0 26px rgba(0,242,255,0.12); }
+
+/* Legacy journey-node fallback (kept small & neutral) */
+.journey-node { width: 18px; height: 18px; border-radius: 9999px; border: 1.4px solid rgba(0,242,255,0.12); background: transparent; box-shadow: 0 0 14px rgba(0,242,255,0.04); }
+
+
+/* Journey card (floating info) */
+.journey-card {
+  background: rgba(11,20,38,0.32); /* #0b1426/60 */
+  border: 1px solid rgba(47,51,90,0.48);
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.6rem;
+  backdrop-filter: blur(6px);
+  max-width: 300px;
+  box-shadow: 0 6px 20px rgba(0,242,255,0.03);
+}
+
+/* Long journey path animation tuning */
+.long-journey-path {
+  stroke-dasharray: 5000;
+  stroke-dashoffset: 5000;
+  animation: path-draw 2600ms ease forwards;
+  filter: drop-shadow(0 8px 18px rgba(0,242,255,0.03)); /* very subtle glow */
+  stroke-opacity: 0.6; /* make the path clearly secondary */
+}
+
+/* Slight fade overlays placed near nodes to visually disconnect the path a little */
+.long-journey-fade { fill: #080B1F; opacity: 0.92; }
+
+/* Left vertical connector (animated gradient) */
+.left-connector {
+  width: 6px;
+  background: linear-gradient(180deg, rgba(0,242,255,0.95), rgba(0,210,200,0.6));
+  background-size: 100% 200%;
+  animation: gradient-shift 3s linear infinite;
+  border-radius: 9999px;
+  opacity: 0.6;
+  box-shadow: 0 8px 20px rgba(0,210,200,0.04);
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* short horizontal connector from marker to card */
+.connector {
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(0,210,200,0.95), rgba(230,233,255,0.06));
+  box-shadow: 0 6px 18px rgba(0,210,200,0.04);
+  width: 2rem;
+  opacity: 0.9;
+}
+
+
+/* Prioritize journey cards over the path */
+.journey-card {
+  background: rgba(11,20,38,0.46); /* slightly stronger */
+  border: 1px solid rgba(47,51,90,0.6);
+  padding: 0.8rem 1rem;
+  border-radius: 0.6rem;
+  backdrop-filter: blur(8px);
+  max-width: 320px;
+  box-shadow: 0 10px 36px rgba(0,242,255,0.06);
+  position: relative;
+  z-index: 20; /* cards above the path */
+}
+
+.journey-stack-card {
+  transition: transform 180ms ease, box-shadow 160ms ease;
+  box-shadow: 0 6px 22px rgba(0,242,255,0.03);
+}
+.journey-stack-card:hover { box-shadow: 0 10px 40px rgba(0,242,255,0.06); transform: translateY(-4px); }
+
+.journey-marker { position: relative; z-index: 15; }
+
+/* Hide per-marker nodes on larger screens now that stack is primary */
+@media (min-width: 768px) {
+  .journey-marker { display: none; }
+}
+
+/* Connector for stacked cards (desktop) */
+.stack-connector {
+  position: absolute;
+  left: -28px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(0,210,200,0.95), rgba(230,233,255,0.06));
+  box-shadow: 0 6px 18px rgba(0,210,200,0.04);
+  opacity: 0.95;
+}
+
+/* Top connector for mobile stacked list */
+.stack-top-connector {
+  height: 2px;
+  width: 48px;
+  margin-left: 40px; /* aligns visually with left connector */
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(0,210,200,0.95), rgba(230,233,255,0.06));
+  box-shadow: 0 6px 18px rgba(0,210,200,0.04);
+  opacity: 0.95;
+}
+
+/* Subtle background stars for the journey area */
+.journey-bg-stars {
+  background-image: radial-gradient(circle at 5% 10%, rgba(230,233,255,0.06) 0.5px, transparent 0.6px),
+                    radial-gradient(circle at 15% 60%, rgba(230,233,255,0.04) 0.6px, transparent 0.7px),
+                    radial-gradient(circle at 40% 30%, rgba(230,233,255,0.05) 0.5px, transparent 0.6px),
+                    radial-gradient(circle at 75% 80%, rgba(230,233,255,0.03) 0.6px, transparent 0.7px);
+  background-size: 100% 100%;
+  opacity: 0.28;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .journey-card { max-width: 86vw; margin-left: 0 !important; margin-right: 0 !important; }
+  .journey-node { width: 44px; height: 44px; }
+}
+
+/* small tooltip-like label for SVG nodes (fallback) */
+.event-node-label {
+  font-size: 10px;
+  fill: #E6E9FF;
+  opacity: 0.9;
+  transition: opacity 160ms ease;
+}
+
+/* Node sequential reveal (gentle pop) */
+@keyframes node-pop {
+  0% { transform: scale(0.72); opacity: 0; filter: blur(1px); }
+  60% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.path-node-appear {
+  animation: node-pop 520ms ease forwards;
+  transform-origin: center;
+  opacity: 0;
+}
+
+/* Reveal helpers (for journey cards and markers) */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 520ms ease, transform 520ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease; }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+.journey-marker.reveal.in-view { animation: node-pop 520ms ease both; }
+.journey-card.reveal.in-view { transform: translateY(0); box-shadow: 0 8px 28px rgba(0,242,255,0.04); }
+
+
+/* CTA standardization */
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(0,242,255,0.06);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(0,242,255,0.12);
+}
+.btn-outline {
+  background: transparent;
+  border: 1px solid rgba(230,233,255,0.08);
+  color: var(--foreground);
 }

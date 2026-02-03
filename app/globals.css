@@ -321,3 +321,35 @@ html {
 .animate-pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
 }
+
+/* Registration page styles */
+.neon-glow {
+  text-shadow: 0 0 10px #0891B2, 0 0 20px #00F2FF;
+}
+
+.glass-card {
+  background: rgba(11, 17, 32, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(8, 145, 178, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 242, 255, 0.5);
+  box-shadow: 0 0 15px rgba(8, 145, 178, 0.3);
+}
+
+/* Confetti animation for success screen */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(720deg);
+  }
+}

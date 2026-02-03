@@ -127,7 +127,7 @@ export function RoadmapSection() {
       rounds: 'Round 1: 17th February',
       date: 'Round 2: 18th February',
       icon: <Monitor className="w-6 h-6" />,
-      registerLink: '#'
+      registerLink: '/register?event=cbit-dsa-master'
     },
     {
       day: 2,
@@ -135,7 +135,7 @@ export function RoadmapSection() {
       rounds: 'Round 1: 17th February',
       date: 'Round 2: 18th February',
       icon: <Lock className="w-6 h-6" />,
-      registerLink: '#'
+      registerLink: '/register?event=cipherville'
     },
     {
       day: 3,
@@ -143,7 +143,7 @@ export function RoadmapSection() {
       rounds: 'All Three Rounds: 17th & 18th February',
       date: '',
       icon: <Zap className="w-6 h-6" />,
-      registerLink: '#'
+      registerLink: '/register?event=ethi-tech-mania'
     }
   ]
 

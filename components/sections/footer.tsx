@@ -4,6 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import { Instagram, Linkedin, Globe, MapPin, Mail, Phone } from 'lucide-react'
 import { HudBadge } from '@/components/ui/hud-frame'
+import { FOOTER_STARS } from '@/lib/seeded-random'
 
 const footerStats = [
   { icon: <Instagram size={24} />, link: "https://www.instagram.com/cbit.vmedha/#", label: "Instagram" },
@@ -35,7 +36,7 @@ export function Footer() {
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <Image
-                  src="/vmedha-logo.png"
+                  src="/logo1.png"
                   alt="VMedha Logo"
                   width={50}
                   height={50}
@@ -154,9 +155,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-[#7D7DBE] text-sm flex items-center gap-2">
             <span className="text-[#E6E9FF]">©</span> {new Date().getFullYear()} Vive-Le-Tech | VMedha Club.
-            <span className="hidden sm:inline">Crafted with</span>
-            <span className="text-[#00D2C8] animate-pulse">✨</span>
-            <span className="hidden sm:inline">in the cosmos</span>
+
           </div>
 
           {/* Connect button with Neon Teal accent */}
@@ -173,14 +172,14 @@ export function Footer() {
 
         {/* Celestial decoration at bottom */}
         <div className="mt-8 flex justify-center gap-2 opacity-30">
-          {[...Array(7)].map((_, i) => (
+          {FOOTER_STARS.map((star, i) => (
             <div
               key={i}
               className="w-1 h-1 rounded-full bg-[#E6E9FF]"
               style={{
-                opacity: 0.3 + Math.random() * 0.5,
-                animation: `twinkle ${2 + Math.random() * 2}s ease-in-out infinite`,
-                animationDelay: `${Math.random() * 2}s`
+                opacity: star.opacity,
+                animation: `twinkle ${star.duration}s ease-in-out infinite`,
+                animationDelay: `${star.delay}s`
               }}
             />
           ))}

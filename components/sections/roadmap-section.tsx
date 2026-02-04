@@ -1,5 +1,4 @@
 'use client'
-
 import { useRef, useEffect, useState } from 'react'
 import { ScrollReveal } from '@/components/animations/scroll-reveal'
 import { HudFrame, HudBadge, HudButton } from '@/components/ui/hud-frame'
@@ -14,52 +13,213 @@ interface EventCardProps {
   index: number
   isVisible: boolean
   registerLink: string
+  mode: string
+  venue: string
+  fee: string
 }
 
-function EventCard({ day, title, rounds, date, icon, index, isVisible, registerLink }: EventCardProps) {
+// Mobile Timeline Card Component
+function MobileTimelineCard({ day, title, rounds, date, icon, index, isVisible, registerLink, mode, venue, fee }: EventCardProps) {
+  return (
+    <div
+      className="relative pl-14 pb-10 last:pb-0 transition-all duration-700"
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateX(0)' : 'translateX(20px)',
+        transitionDelay: `${index * 150}ms`
+      }}
+    >
+      {/* Timeline node with event number */}
+      <div
+        className="absolute left-0 top-0 w-8 h-8 flex items-center justify-center z-10 transition-all duration-500"
+        style={{
+          transform: `scale(${isVisible ? 1 : 0})`,
+          transitionDelay: `${index * 150}ms`
+        }}
+      >
+        {/* Glow effect */}
+        <div
+          className="absolute w-10 h-10 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(0,242,255,0.2) 0%, transparent 70%)',
+          }}
+        />
+        {/* Number circle */}
+        <div
+          className="w-7 h-7 rounded-full bg-[#0D0F1A] border border-[#00F2FF]/60 flex items-center justify-center relative z-10"
+          style={{
+            boxShadow: '0 0 12px rgba(0, 242, 255, 0.4)'
+          }}
+        >
+          <span className="text-[#00F2FF] text-xs font-bold">{index + 1}</span>
+        </div>
+      </div>
+
+      {/* Connector line to card */}
+      <div
+        className="absolute left-8 top-3 w-6 h-[1px] transition-all duration-500"
+        style={{
+          background: 'linear-gradient(90deg, rgba(0,242,255,0.5) 0%, rgba(0,242,255,0.1) 100%)',
+          opacity: isVisible ? 1 : 0,
+          transform: `scaleX(${isVisible ? 1 : 0})`,
+          transformOrigin: 'left',
+          transitionDelay: `${index * 150 + 100}ms`
+        }}
+      />
+
+      {/* Card */}
+      <HudFrame
+        className="group hover:scale-[1.01] transition-transform duration-300"
+        glowing
+      >
+        {/* Header with icon and title */}
+        <div className="flex items-start gap-3 mb-4">
+          {/* Icon container */}
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+            style={{
+              background: 'rgba(0, 242, 255, 0.1)',
+              border: '1px solid rgba(0, 242, 255, 0.2)'
+            }}
+          >
+            <div className="text-[#00F2FF]">{icon}</div>
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg font-display font-bold text-[#E6E9FF] group-hover:text-[#00F2FF] transition-colors duration-300 leading-tight">
+              {title}
+            </h3>
+          </div>
+        </div>
+
+        {/* Schedule info */}
+        <div className="space-y-1 mb-3">
+          <p className="text-[#E6E9FF]/70 text-sm flex items-center gap-2">
+            <span className="w-1 h-1 rounded-full bg-[#00F2FF]/50"></span>
+            {rounds}
+          </p>
+          {date && (
+            <p className="text-[#E6E9FF]/70 text-sm flex items-center gap-2">
+              <span className="w-1 h-1 rounded-full bg-[#00F2FF]/50"></span>
+              {date}
+            </p>
+          )}
+        </div>
+
+        {/* Event Details: Mode, Venue, Fee */}
+        <div className="grid grid-cols-3 gap-2 mb-4 p-3 rounded-lg bg-[#0D0F1A]/50 border border-[#3A3F7A]/30">
+          <div className="text-center">
+            <p className="text-[#00F2FF]/70 text-[10px] uppercase tracking-wider mb-1">Mode</p>
+            <p className="text-[#E6E9FF] text-xs font-medium">{mode}</p>
+          </div>
+          <div className="text-center border-x border-[#3A3F7A]/30">
+            <p className="text-[#00F2FF]/70 text-[10px] uppercase tracking-wider mb-1">Venue</p>
+            <p className="text-[#E6E9FF] text-xs font-medium">{venue}</p>
+          </div>
+          <div className="text-center">
+            <p className="text-[#00F2FF]/70 text-[10px] uppercase tracking-wider mb-1">Fee</p>
+            <p className="text-[#00FF88] text-xs font-bold">{fee}</p>
+          </div>
+        </div>
+
+        <HudButton variant="primary" href={registerLink} className="text-xs px-4 py-2">
+          Register
+        </HudButton>
+      </HudFrame>
+    </div>
+  )
+}
+
+// Desktop Timeline Card Component
+function DesktopEventCard({ day, title, rounds, date, icon, index, isVisible, registerLink, mode, venue, fee }: EventCardProps) {
   const isLeft = index % 2 === 0
+  const desktopTop = index * 350 + 50
 
   return (
     <div
-      className={`absolute ${isLeft ? 'left-0 md:left-[5%]' : 'right-0 md:right-[5%]'} w-[85%] md:w-[350px] transition-all duration-700`}
+      className={`absolute ${isLeft ? 'left-[5%]' : 'right-[5%]'} w-[380px] transition-all duration-700`}
       style={{
-        top: `${index * 350 + 50}px`,
+        top: `${desktopTop}px`,
         opacity: isVisible ? 1 : 0,
-        transform: isVisible 
-          ? 'translateX(0) scale(1)' 
-          : isLeft 
-            ? 'translateX(-50px) scale(0.95)' 
-            : 'translateX(50px) scale(0.95)',
+        transform: isVisible
+          ? 'translateX(0) scale(1)'
+          : isLeft
+            ? 'translateX(-40px) scale(0.98)'
+            : 'translateX(40px) scale(0.98)',
         transitionDelay: `${index * 100}ms`
       }}
     >
       <HudFrame
-        className="group hover:scale-[1.02] transition-transform duration-500"
+        className="group hover:scale-[1.02] transition-transform duration-300"
         glowing
       >
-        {/* Icon */}
-        <div className="text-[#00F2FF] mb-4">
-          {icon}
+        {/* Event number badge */}
+        <div
+          className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center z-20"
+          style={{
+            background: 'linear-gradient(135deg, #00F2FF 0%, #00D2C8 100%)',
+            boxShadow: '0 4px 15px rgba(0, 242, 255, 0.4)'
+          }}
+        >
+          <span className="text-[#0D0F1A] text-sm font-bold">{index + 1}</span>
         </div>
 
-        {/* Title */}
-        <h3 className="text-xl md:text-2xl font-display font-bold text-[#E6E9FF] mb-2 group-hover:text-[#00F2FF] transition-colors duration-300">
-          {title}
-        </h3>
+        {/* Header section */}
+        <div className="flex items-start gap-4 mb-5">
+          {/* Icon with background */}
+          <div
+            className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110"
+            style={{
+              background: 'linear-gradient(135deg, rgba(0, 242, 255, 0.15) 0%, rgba(0, 210, 200, 0.1) 100%)',
+              border: '1px solid rgba(0, 242, 255, 0.25)'
+            }}
+          >
+            <div className="text-[#00F2FF]">{icon}</div>
+          </div>
 
-        {/* Rounds */}
-        <p className="text-[#E6E9FF]/80 text-sm mb-1">
-          {rounds}
-        </p>
+          <div className="flex-1 pt-1">
+            <h3 className="text-2xl font-display font-bold text-[#E6E9FF] mb-1 group-hover:text-[#00F2FF] transition-colors duration-300">
+              {title}
+            </h3>
+            <p className="text-[#7D7DBE] text-xs uppercase tracking-wider">Competition</p>
+          </div>
+        </div>
 
-        {/* Date */}
-        <p className="text-[#E6E9FF]/80 text-sm mb-4">
-          {date}
-        </p>
+        {/* Divider */}
+        <div className="h-[1px] w-full mb-4" style={{ background: 'linear-gradient(90deg, transparent, rgba(58, 63, 122, 0.5), transparent)' }} />
 
-        {/* Register Button */}
+        {/* Schedule details */}
+        <div className="space-y-2 mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 rounded-full bg-[#00F2FF]/60" />
+            <p className="text-[#E6E9FF]/80 text-sm">{rounds}</p>
+          </div>
+          {date && (
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-[#00D2C8]/60" />
+              <p className="text-[#E6E9FF]/80 text-sm">{date}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Event Details: Mode, Venue, Fee */}
+        <div className="grid grid-cols-3 gap-3 mb-5 p-4 rounded-lg bg-[#0D0F1A]/50 border border-[#3A3F7A]/30">
+          <div className="text-center">
+            <p className="text-[#00F2FF]/70 text-[11px] uppercase tracking-wider mb-1">Mode</p>
+            <p className="text-[#E6E9FF] text-sm font-medium">{mode}</p>
+          </div>
+          <div className="text-center border-x border-[#3A3F7A]/30">
+            <p className="text-[#00F2FF]/70 text-[11px] uppercase tracking-wider mb-1">Venue</p>
+            <p className="text-[#E6E9FF] text-sm font-medium">{venue}</p>
+          </div>
+          <div className="text-center">
+            <p className="text-[#00F2FF]/70 text-[11px] uppercase tracking-wider mb-1">Fee</p>
+            <p className="text-[#00FF88] text-sm font-bold">{fee}</p>
+          </div>
+        </div>
+
         <HudButton variant="primary" href={registerLink}>
-          Register
+          Register Now
         </HudButton>
       </HudFrame>
     </div>
@@ -73,7 +233,7 @@ function StopPoint({ index, isVisible }: { index: number; isVisible: boolean }) 
     { top: 520, left: 50 },  // Near card 2 (right side)
     { top: 870, left: 50 },  // Near card 3 (left side)
   ]
-  
+
   return (
     <div
       className="absolute left-1/2 z-20 transition-all duration-500"
@@ -84,33 +244,68 @@ function StopPoint({ index, isVisible }: { index: number; isVisible: boolean }) 
         transitionDelay: `${index * 150}ms`
       }}
     >
-      {/* Outer glow ring */}
-      {isVisible && (
-        <div 
-          className="absolute -inset-3 rounded-full animate-ping"
-          style={{
-            background: 'rgba(0, 242, 255, 0.3)',
-            animationDuration: '2s',
-          }}
-        />
-      )}
-      {/* Middle glow */}
-      <div 
-        className="absolute -inset-2 rounded-full"
+      {/* Glow effect */}
+      <div
+        className="absolute -inset-3 rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(0,242,255,0.5) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0,242,255,0.25) 0%, transparent 70%)',
         }}
       />
-      {/* Main dot */}
-      <div 
-        className="w-5 h-5 rounded-full border-2 border-[#00F2FF] relative"
+      {/* Number badge */}
+      <div
+        className="w-8 h-8 rounded-full flex items-center justify-center relative"
         style={{
-          background: 'radial-gradient(circle at 30% 30%, #00F2FF 0%, #00D2C8 100%)',
-          boxShadow: '0 0 15px rgba(0, 242, 255, 0.8), 0 0 30px rgba(0, 242, 255, 0.4)'
+          background: 'linear-gradient(135deg, #00F2FF 0%, #00D2C8 100%)',
+          boxShadow: '0 0 20px rgba(0, 242, 255, 0.5), 0 4px 10px rgba(0, 0, 0, 0.3)'
         }}
-      />
+      >
+        <span className="text-[#0D0F1A] text-sm font-bold">{index + 1}</span>
+      </div>
     </div>
   )
+}
+
+// Define events outside component to prevent hydration mismatches
+const eventsData = [
+  {
+    day: 1,
+    title: 'DSA MASTER CBIT',
+    rounds: 'Round 1: 17th February',
+    date: 'Round 2: 18th February',
+    iconType: 'monitor' as const,
+    registerLink: '/register?event=dsa-masters',
+    mode: 'Offline',
+    venue: 'CBIT',
+    fee: 'Free'
+  },
+  {
+    day: 2,
+    title: 'Cipherville',
+    rounds: 'Round 1: 17th February',
+    date: 'Round 2: 18th February',
+    iconType: 'lock' as const,
+    registerLink: '/register?event=cipherville',
+    mode: 'Offline',
+    venue: 'CBIT',
+    fee: 'Free'
+  },
+  {
+    day: 3,
+    title: 'Ethitech Mania',
+    rounds: 'All Three Rounds: 17th & 18th February',
+    date: '',
+    iconType: 'zap' as const,
+    registerLink: '/register?event=ethitech-mania',
+    mode: 'Online',
+    venue: 'Anywhere',
+    fee: 'Free'
+  }
+]
+
+const iconMap = {
+  monitor: <Monitor className="w-6 h-6" />,
+  lock: <Lock className="w-6 h-6" />,
+  zap: <Zap className="w-6 h-6" />
 }
 
 export function RoadmapSection() {
@@ -120,32 +315,10 @@ export function RoadmapSection() {
   const pathRef = useRef<SVGPathElement | null>(null)
   const [measuredPathLength, setMeasuredPathLength] = useState<number>(0)
 
-  const events = [
-    {
-      day: 1,
-      title: 'DSA Masters CBIT',
-      rounds: 'Round 1: 17th February',
-      date: 'Round 2: 18th February',
-      icon: <Monitor className="w-6 h-6" />,
-      registerLink: '/register?event=cbit-dsa-master'
-    },
-    {
-      day: 2,
-      title: 'Cipherville',
-      rounds: 'Round 1: 17th February',
-      date: 'Round 2: 18th February',
-      icon: <Lock className="w-6 h-6" />,
-      registerLink: '/register?event=cipherville'
-    },
-    {
-      day: 3,
-      title: 'Ethitech Mania',
-      rounds: 'All Three Rounds: 17th & 18th February',
-      date: '',
-      icon: <Zap className="w-6 h-6" />,
-      registerLink: '/register?event=ethi-tech-mania'
-    }
-  ]
+  const events = eventsData.map(event => ({
+    ...event,
+    icon: iconMap[event.iconType]
+  }))
 
   useEffect(() => {
     const handleScroll = () => {
@@ -193,7 +366,7 @@ export function RoadmapSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="roadmap" className="py-32 px-6 relative overflow-hidden">
+    <section ref={sectionRef} id="roadmap" className="py-20 md:py-32 px-4 md:px-6 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#3A3F7A] to-transparent" />
@@ -202,27 +375,56 @@ export function RoadmapSection() {
 
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-12 md:mb-20">
           <ScrollReveal>
-            <HudBadge variant="accent" className="mb-4">EVENT SCHEDULE</HudBadge>
+            <HudBadge variant="accent" className="mb-4">COMPETITIONS</HudBadge>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <h2 className="text-4xl md:text-6xl font-display font-bold text-[#E6E9FF] mb-6">
-              <span className="text-[#00F2FF] text-glow-cyan">Event Options</span>
+            <h2 className="text-3xl md:text-6xl font-display font-bold text-[#E6E9FF] mb-4 md:mb-6">
+              <span className="text-[#00F2FF] text-glow-cyan">Choose Your Challenge</span>
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={200}>
-            <p className="text-xl text-[#7D7DBE] max-w-2xl mx-auto">
-              Two days of innovation, learning, and connection
+            <p className="text-lg md:text-xl text-[#7D7DBE] max-w-2xl mx-auto">
+              Three unique competitions across two action-packed days
             </p>
           </ScrollReveal>
         </div>
 
-        {/* Roadmap container */}
-        <div className="relative" style={{ height: '1100px' }}>
+        {/* ===== MOBILE TIMELINE LAYOUT ===== */}
+        <div className="md:hidden relative pl-4">
+          {/* Vertical timeline line - connects through dot centers */}
+          <div
+            className="absolute left-[31px] top-[16px] w-[2px] bg-[#3A3F7A]"
+            style={{ height: 'calc(100% - 280px)' }}
+          />
+          {/* Animated progress line */}
+          <div
+            className="absolute left-[31px] top-[16px] w-[2px] origin-top transition-transform duration-300"
+            style={{
+              height: 'calc(100% - 280px)',
+              background: 'linear-gradient(180deg, #00F2FF 0%, #00D2C8 50%, #00F2FF 100%)',
+              boxShadow: '0 0 8px rgba(0, 242, 255, 0.6)',
+              transform: `scaleY(${pathProgress})`
+            }}
+          />
+
+          {/* Mobile timeline cards */}
+          {events.map((event, index) => (
+            <MobileTimelineCard
+              key={index}
+              {...event}
+              index={index}
+              isVisible={visibleCards[index]}
+            />
+          ))}
+        </div>
+
+        {/* ===== DESKTOP CURVED PATH LAYOUT ===== */}
+        <div className="hidden md:block relative h-[1100px]">
           {/* SVG Path - Curved line connecting cards */}
           <svg
-            className="absolute left-1/2 -translate-x-1/2 top-0 h-full w-[200px] md:w-[400px]"
+            className="absolute left-1/2 -translate-x-1/2 top-0 h-full w-[400px]"
             viewBox="0 0 400 1100"
             fill="none"
             preserveAspectRatio="none"
@@ -241,7 +443,7 @@ export function RoadmapSection() {
                 </feMerge>
               </filter>
             </defs>
-            
+
             {/* Background path (dimmed) */}
             <path
               d="M 200 16 
@@ -257,7 +459,7 @@ export function RoadmapSection() {
             />
             {/* Animated path (foreground) */}
             <path
-              ref={(el) => (pathRef.current = el)}
+              ref={(el) => { pathRef.current = el }}
               d="M 200 16 
                  C 200 96, 80 136, 80 216 
                  C 80 296, 320 336, 320 416 
@@ -287,16 +489,16 @@ export function RoadmapSection() {
 
           {/* Stop points on the path */}
           {events.map((_, index) => (
-            <StopPoint 
-              key={index} 
-              index={index} 
-              isVisible={visibleCards[index]} 
+            <StopPoint
+              key={index}
+              index={index}
+              isVisible={visibleCards[index]}
             />
           ))}
 
-          {/* Event cards */}
+          {/* Desktop event cards */}
           {events.map((event, index) => (
-            <EventCard
+            <DesktopEventCard
               key={index}
               {...event}
               index={index}
@@ -308,3 +510,4 @@ export function RoadmapSection() {
     </section>
   )
 }
+

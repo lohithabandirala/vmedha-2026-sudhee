@@ -13,7 +13,7 @@ export function FaqSection() {
     const faqs = [
         {
             question: "What is Vive-le-Tech?",
-            answer: "Vive-le-Tech is our flagship technical symposium designed to celebrate innovation and technology. It brings together brilliant minds to compete, learn, and showcase their skills through various technical challenges."
+            answer: "Vive-le-Tech is our technical symposium designed to celebrate innovation and technology. It brings together brilliant minds to compete, learn, and showcase their skills through various technical challenges."
         },
         {
             question: "When do the events begin?",
@@ -21,10 +21,10 @@ export function FaqSection() {
         },
         {
             question: "Who can participate in the events?",
-            answer: "The events are open to students from all engineering and technical backgrounds. Whether you are a beginner or an expert, there is something for everyone to participate in and learn from."
+            answer: "The events are open to all students and professionals. Whether you are a beginner or an expert, there is something for everyone to participate in and learn from."
         },
         {
-            question: "How do I register for CipherVille / DSA Masters / EthiTechMania?",
+            question: "How do I register for CipherVille / DSA MASTER / EthiTechMania?",
             answer: "You can register for specific events like CipherVille, DSA Masters, and EthiTechMania through our event registration portal. Simply navigate to the specific event card on the home page and click 'Register' to secure your spot."
         },
         {
@@ -32,8 +32,24 @@ export function FaqSection() {
             answer: "No, the events are absolutely free and open to everyone."
         },
         {
-            question: "Do members and participants get certificates?",
-            answer: "Yes, participants and active members will receive certificates for selected events and activities conducted by the club."
+            question: "Do participants get certificates?",
+            answer: "Yes, participants will receive certificates for selected events and activities conducted by the club."
+        },
+        {
+            question: "Will there be prizes for winners?",
+            answer: "Yes! Winners of each event will receive exciting prizes. Stay tuned for more details on the prize pool for each competition."
+        },
+        {
+            question: "Can I participate in multiple events?",
+            answer: "Absolutely! You can register for all three events. We even have an 'All 3 Events (Combo)' option for easy registration."
+        },
+        {
+            question: "Can students other than CBIT participate?",
+            answer: "Yes! The events are open to all college students. Both CBIT and Non-CBIT students are welcome to register and participate."
+        },
+        {
+            question: "How many activity points will be provided?",
+            answer: "CBIT students will receive 5-10 activity points for each event they participate in."
         }
     ]
 

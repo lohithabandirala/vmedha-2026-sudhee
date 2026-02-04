@@ -4,21 +4,21 @@ import { Space_Grotesk, JetBrains_Mono, Orbitron } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const spaceGrotesk = Space_Grotesk({ 
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: '--font-sans'
 });
-const jetbrainsMono = JetBrains_Mono({ 
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: '--font-mono'
 });
-const orbitron = Orbitron({ 
+const orbitron = Orbitron({
   subsets: ["latin"],
   variable: '--font-display'
 });
 
 export const metadata: Metadata = {
-  title: 'OpenSys | Vive Le Tech',
+  title: 'Vive-le-tech2026',
   description: 'Long live tech - Building the future with innovation',
   generator: 'v0.app',
   icons: {

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { HudBadge } from '@/components/ui/hud-frame'
+import { ABOUT_STARS } from '@/lib/seeded-random'
+import { Lightbulb, Users, Rocket } from 'lucide-react'
 
 export function AboutSection() {
   const [isVisible, setIsVisible] = useState(false)
@@ -28,11 +30,11 @@ export function AboutSection() {
     <section className="relative py-32 px-6 overflow-hidden">
       {/* Deep Space Blue background layer */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#080B1F] via-[#1A1C3D] to-[#080B1F] opacity-60" />
-      
+
       {/* Atmospheric glow effects */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00D2C8]/10 rounded-full blur-[100px] animate-cosmic-drift" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#7D7DBE]/15 rounded-full blur-[120px] animate-cosmic-drift" 
-        style={{ animationDelay: '5s', animationDuration: '25s' }} 
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#7D7DBE]/15 rounded-full blur-[120px] animate-cosmic-drift"
+        style={{ animationDelay: '5s', animationDuration: '25s' }}
       />
 
       <div id="about-content" className="max-w-6xl mx-auto relative z-10">
@@ -44,7 +46,7 @@ export function AboutSection() {
         </div>
 
         {/* Main heading */}
-        <h2 
+        <h2
           className="text-4xl md:text-6xl font-display font-bold text-center mb-6 transition-all duration-1000"
           style={{
             background: 'linear-gradient(135deg, #00F2FF 0%, #E6E9FF 50%, #7D7DBE 100%)',
@@ -58,7 +60,7 @@ export function AboutSection() {
         </h2>
 
         {/* Subtitle */}
-        <p 
+        <p
           className="text-xl md:text-2xl text-[#7D7DBE] text-center mb-8 max-w-3xl mx-auto transition-all duration-1000 delay-200"
           style={{
             opacity: isVisible ? 1 : 0,
@@ -67,28 +69,28 @@ export function AboutSection() {
         >
           {"We're a community of tech enthusiasts, innovators, and dreamers exploring the endless possibilities of technology."}
         </p>
-        
+
 
         {/* Single rectangle with three sections */}
-        <div className="mx-auto max-w-5xl transition-all duration-700" style={{opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(40px)'}}>
+        <div className="mx-auto max-w-5xl transition-all duration-700" style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(40px)' }}>
           <div className="rounded-2xl border border-[#3A3F7A] bg-[#1A1C3D]/30 backdrop-blur-sm overflow-hidden">
             <div className="flex flex-col md:flex-row">
               {[
                 {
                   title: 'Innovation',
-                  icon: '💡',
+                  icon: <Lightbulb className="w-8 h-8" />,
                   description: 'Pushing boundaries with cutting-edge technology and creative solutions',
                   color: '#00F2FF'
                 },
                 {
                   title: 'Community',
-                  icon: '🤝',
+                  icon: <Users className="w-8 h-8" />,
                   description: 'Building a vibrant ecosystem of learners, creators, and collaborators',
                   color: '#00D2C8'
                 },
                 {
                   title: 'Impact',
-                  icon: '🚀',
+                  icon: <Rocket className="w-8 h-8" />,
                   description: 'Creating meaningful change through technology and innovation',
                   color: '#7D7DBE'
                 }
@@ -99,9 +101,10 @@ export function AboutSection() {
                 >
                   <div className="relative">
                     <div
-                      className="text-4xl mb-4 inline-block"
+                      className="mb-4 inline-block"
                       style={{
-                        filter: `drop-shadow(0 0 16px ${feature.color}50)`
+                        color: feature.color,
+                        filter: `drop-shadow(0 0 12px ${feature.color}80)`
                       }}
                     >
                       {feature.icon}
@@ -122,14 +125,14 @@ export function AboutSection() {
         </div>
 
         {/* Bottom decorative line with Electric Cyan */}
-        <div 
+        <div
           className="mt-16 h-[2px] max-w-md mx-auto rounded-full relative overflow-hidden transition-all duration-1000 delay-700"
           style={{
             background: 'linear-gradient(90deg, transparent, #00F2FF, transparent)',
             opacity: isVisible ? 1 : 0
           }}
         >
-          <div 
+          <div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent"
             style={{
               animation: 'shimmer 3s ease-in-out infinite'
@@ -140,19 +143,19 @@ export function AboutSection() {
 
       {/* Starlight particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(20)].map((_, i) => (
+        {ABOUT_STARS.map((star, i) => (
           <div
             key={i}
             className="absolute rounded-full bg-[#E6E9FF]"
             style={{
-              width: `${Math.random() * 2 + 1}px`,
-              height: `${Math.random() * 2 + 1}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.5 + 0.2,
+              width: `${star.width}px`,
+              height: `${star.height}px`,
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              opacity: star.opacity,
               boxShadow: '0 0 4px rgba(230, 233, 255, 0.5)',
-              animation: `twinkle ${Math.random() * 3 + 2}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`
+              animation: `twinkle ${star.duration}s ease-in-out infinite`,
+              animationDelay: `${star.delay}s`
             }}
           />
         ))}

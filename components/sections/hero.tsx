@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { HudBadge } from '@/components/ui/hud-frame'
+import { HERO_LEFT_HUD, HERO_RIGHT_HUD, HERO_STARS } from '@/lib/seeded-random'
 
 export function HeroSection() {
   const [mounted, setMounted] = useState(false)
@@ -27,9 +28,9 @@ export function HeroSection() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Deep Space Blue gradient layer */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#080B1F] via-[#1A1C3D] to-[#080B1F] opacity-80" />
-        
+
         {/* Main visible grid - flat */}
-        <div 
+        <div
           className="absolute inset-0"
           style={{
             backgroundImage: `
@@ -40,9 +41,9 @@ export function HeroSection() {
             maskImage: 'radial-gradient(ellipse 70% 50% at center, black 30%, transparent 70%)'
           }}
         />
-        
+
         {/* Perspective grid at bottom - futuristic floor effect */}
-        <div 
+        <div
           className="absolute bottom-0 left-0 right-0 h-[60vh]"
           style={{
             backgroundImage: `
@@ -55,9 +56,9 @@ export function HeroSection() {
             maskImage: 'linear-gradient(to top, black 0%, transparent 80%)'
           }}
         />
-        
+
         {/* Horizontal glow line */}
-        <div 
+        <div
           className="absolute bottom-[20%] left-0 right-0 h-[2px]"
           style={{
             background: 'linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.5), rgba(0, 210, 200, 0.5), transparent)',
@@ -67,20 +68,20 @@ export function HeroSection() {
       </div>
 
       {/* Multiple layered glowing orbs for atmospheric depth */}
-      <div 
+      <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-20 blur-[120px] pointer-events-none animate-pulse-glow"
         style={{
           background: 'radial-gradient(circle, rgba(0, 242, 255, 0.4) 0%, rgba(99, 102, 241, 0.2) 40%, transparent 70%)'
         }}
       />
-      <div 
+      <div
         className="absolute top-1/3 left-1/3 w-[400px] h-[400px] rounded-full opacity-25 blur-[80px] pointer-events-none"
         style={{
           background: 'radial-gradient(circle, rgba(0, 210, 200, 0.3) 0%, transparent 60%)',
           animation: 'float 4s ease-in-out infinite'
         }}
       />
-      <div 
+      <div
         className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full opacity-20 blur-[60px] pointer-events-none"
         style={{
           background: 'radial-gradient(circle, rgba(125, 125, 190, 0.4) 0%, transparent 70%)',
@@ -159,7 +160,7 @@ export function HeroSection() {
             transition: 'all 800ms ease-out 300ms'
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-shimmer" 
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-shimmer"
             style={{
               animation: 'shimmer 3s ease-in-out infinite'
             }}
@@ -180,25 +181,25 @@ export function HeroSection() {
             </linearGradient>
           </defs>
           {/* Back mountains */}
-          <path 
-            d="M0,100 Q200,60 400,80 T800,100 T1200,90 L1200,200 L0,200 Z" 
-            fill="url(#hillGradient)" 
+          <path
+            d="M0,100 Q200,60 400,80 T800,100 T1200,90 L1200,200 L0,200 Z"
+            fill="url(#hillGradient)"
             opacity="0.4"
           />
           {/* Mid mountains */}
-          <path 
-            d="M0,130 Q150,90 300,110 T600,120 T900,100 T1200,120 L1200,200 L0,200 Z" 
-            fill="#3A3F7A" 
+          <path
+            d="M0,130 Q150,90 300,110 T600,120 T900,100 T1200,120 L1200,200 L0,200 Z"
+            fill="#3A3F7A"
             opacity="0.6"
           />
           {/* Front mountains */}
-          <path 
-            d="M0,150 Q100,120 250,140 T500,145 T750,135 T1000,150 T1200,140 L1200,200 L0,200 Z" 
-            fill="#3A3F7A" 
+          <path
+            d="M0,150 Q100,120 250,140 T500,145 T750,135 T1000,150 T1200,140 L1200,200 L0,200 Z"
+            fill="#3A3F7A"
             opacity="0.8"
           />
         </svg>
-        
+
         {/* Gradient fade to background */}
         <div className="h-16 bg-gradient-to-t from-[#080B1F] via-[#1A1C3D]/50 to-transparent" />
       </div>
@@ -207,15 +208,15 @@ export function HeroSection() {
 
       {/* Side HUD decorations with Neon Teal accents */}
       <div className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-3 opacity-40">
-        {[...Array(6)].map((_, i) => (
+        {HERO_LEFT_HUD.map((hud, i) => (
           <div
             key={i}
             className="relative"
             style={{
               width: '2px',
-              height: `${30 + Math.random() * 50}px`,
+              height: `${hud.height}px`,
               background: i % 2 === 0 ? '#00D2C8' : '#00F2FF',
-              opacity: 0.4 + Math.random() * 0.4,
+              opacity: hud.opacity,
               boxShadow: `0 0 10px ${i % 2 === 0 ? 'rgba(0, 210, 200, 0.3)' : 'rgba(0, 242, 255, 0.3)'}`,
               animation: `pulse-glow ${2 + i * 0.3}s ease-in-out infinite`
             }}
@@ -223,15 +224,15 @@ export function HeroSection() {
         ))}
       </div>
       <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-3 opacity-40">
-        {[...Array(6)].map((_, i) => (
+        {HERO_RIGHT_HUD.map((hud, i) => (
           <div
             key={i}
             className="relative"
             style={{
               width: '2px',
-              height: `${30 + Math.random() * 50}px`,
+              height: `${hud.height}px`,
               background: i % 2 === 0 ? '#7D7DBE' : '#00D2C8',
-              opacity: 0.4 + Math.random() * 0.4,
+              opacity: hud.opacity,
               boxShadow: `0 0 10px ${i % 2 === 0 ? 'rgba(125, 125, 190, 0.3)' : 'rgba(0, 210, 200, 0.3)'}`,
               animation: `pulse-glow ${2.5 + i * 0.3}s ease-in-out infinite`
             }}
@@ -241,19 +242,19 @@ export function HeroSection() {
 
       {/* Celestial particles/stars overlay */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(30)].map((_, i) => (
+        {HERO_STARS.map((star, i) => (
           <div
             key={i}
             className="absolute rounded-full bg-[#E6E9FF]"
             style={{
-              width: `${Math.random() * 3 + 1}px`,
-              height: `${Math.random() * 3 + 1}px`,
-              top: `${Math.random() * 80}%`,
-              left: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.6 + 0.2,
+              width: `${star.width}px`,
+              height: `${star.height}px`,
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              opacity: star.opacity,
               boxShadow: '0 0 4px rgba(230, 233, 255, 0.5)',
-              animation: `twinkle ${Math.random() * 3 + 2}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`
+              animation: `twinkle ${star.duration}s ease-in-out infinite`,
+              animationDelay: `${star.delay}s`
             }}
           />
         ))}

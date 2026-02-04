@@ -1,18 +1,28 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { label: 'Home', href: '#' },
+  { label: 'Home', href: '/' },
   { label: 'About', href: '#about' },
   { label: 'Events', href: '#events' },
+  { label: 'FAQ', href: '#faq' },
   { label: 'Contact Us', href: '#contact' },
 ]
 
 export function Navigation() {
+  const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  const getHref = (href: string) => {
+    if (href.startsWith('#') && pathname !== '/') {
+      return `/${href}`
+    }
+    return href
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,22 +45,42 @@ export function Navigation() {
           {/* Logo and Brand Name */}
           <div className="flex items-center gap-3">
             {/* Club Logo */}
-            <a href="#" className="flex items-center group">
+            <a href="/" className="flex items-center group">
               <div className="relative w-10 h-10 sm:w-12 sm:h-12">
-                {/* Circular background with light blue glow */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#00F2FF]/20 to-[#6366F1]/20 border-2 border-[#00F2FF] shadow-[0_0_20px_rgba(0,242,255,0.5)] transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(0,242,255,0.8)] group-hover:scale-105" />
-                {/* Logo image */}
+                {/* Segmented circle border (WhatsApp status style) */}
+                <svg
+                  className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:rotate-45"
+                  viewBox="0 0 100 100"
+                >
+                  <defs>
+                    <linearGradient id="segmentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#00F2FF" />
+                      <stop offset="100%" stopColor="#6366F1" />
+                    </linearGradient>
+                  </defs>
+                  {/* 4 arc segments with gaps */}
+                  <circle
+                    cx="50" cy="50" r="46"
+                    fill="none"
+                    stroke="url(#segmentGradient)"
+                    strokeWidth="3"
+                    strokeDasharray="65 20"
+                    strokeLinecap="round"
+                    style={{ filter: 'drop-shadow(0 0 6px rgba(0, 242, 255, 0.5))' }}
+                  />
+                </svg>
+                {/* Logo image - no background */}
                 <img
-                  src="/logo.png"
+                  src="/logo1.png"
                   alt="VMEDHA Logo"
-                  className="relative w-full h-full object-contain p-1.5 transition-transform group-hover:scale-110 duration-500 ease-out"
+                  className="relative w-full h-full object-contain p-2 transition-transform group-hover:scale-110 duration-500 ease-out"
                 />
               </div>
             </a>
 
             {/* Brand Name */}
-            <a href="#" className="group">
-              <h1 className="font-display text-xl sm:text-2xl font-bold tracking-wider bg-gradient-to-r from-[#00F2FF] via-[#6366F1] to-[#00F2FF] bg-clip-text text-transparent group-hover:from-[#6366F1] group-hover:via-[#00F2FF] group-hover:to-[#6366F1] transition-all duration-500">
+            <a href="/" className="group">
+              <h1 className="font-display text-xl sm:text-2xl font-bold tracking-wider bg-gradient-to-r from-[#E6E9FF] to-[#00F2FF] bg-clip-text text-transparent group-hover:from-[#00F2FF] group-hover:to-[#E6E9FF] transition-all duration-500">
                 VMEDHA
               </h1>
             </a>
@@ -61,7 +91,7 @@ export function Navigation() {
             {navItems.map((item) => (
               <a
                 key={item.label}
-                href={item.href}
+                href={getHref(item.href)}
                 className="relative text-sm font-medium tracking-wide text-[#7D7DBE] hover:text-[#00F2FF] transition-colors duration-300 group py-2"
               >
                 {item.label}
@@ -101,14 +131,14 @@ export function Navigation() {
         <div
           className={cn(
             'md:hidden overflow-hidden transition-all duration-500 absolute left-0 right-0 top-16 bg-[#080B1F] border-b border-[#3A3F7A]/30',
-            mobileOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+            mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
           )}
         >
           <div className="flex flex-col gap-1 py-4 px-4">
             {navItems.map((item) => (
               <a
                 key={item.label}
-                href={item.href}
+                href={getHref(item.href)}
                 onClick={() => setMobileOpen(false)}
                 className="px-4 py-3 text-[#7D7DBE] hover:text-[#00F2FF] hover:bg-[#00F2FF]/5 transition-all duration-300 tracking-wide font-medium rounded-lg"
               >

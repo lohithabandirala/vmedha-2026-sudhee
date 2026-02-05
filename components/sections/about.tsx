@@ -5,7 +5,7 @@ import { HudBadge } from '@/components/ui/hud-frame'
 import { ABOUT_STARS } from '@/lib/seeded-random'
 import { Lightbulb, Users, Rocket } from 'lucide-react'
 
-export function AboutSection() {
+export function About() {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {

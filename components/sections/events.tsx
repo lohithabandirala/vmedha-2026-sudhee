@@ -45,12 +45,12 @@ function EventCard({
   )
 }
 
-export function ProductsSection() {
+export function Events() {
   const events = [
     {
-      title: 'DSA Masters CBIT',
+      title: 'DSA MASTER CBIT',
       description:
-        "DSA Masters is a competitive coding challenge designed to test participants' problem-solving abilities using Data Structures and Algorithms. Players tackle time-bound problems of increasing difficulty, focusing on logic, efficiency, and optimized solutions. It's ideal for sharpening DSA skills and preparing for technical interviews.",
+        "DSA MASTER is a competitive coding challenge designed to test participants' problem-solving abilities using Data Structures and Algorithms. Players tackle time-bound problems of increasing difficulty, focusing on logic, efficiency, and optimized solutions. It's ideal for sharpening DSA skills and preparing for technical interviews.",
       domains: ['DSA', 'Coding']
     },
     {

@@ -9,7 +9,7 @@ import {
     AccordionTrigger,
 } from '@/components/ui/accordion'
 
-export function FaqSection() {
+export function Faq() {
     const faqs = [
         {
             question: "What is Vive-le-Tech?",

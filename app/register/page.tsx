@@ -130,21 +130,73 @@ function RegisterForm() {
   }
 
   if (isSuccess) {
+    // Define group links - REPLACE THESE WITH ACTUAL LINKS
+    const GROUPS = {
+      'dsa-masters': { name: 'DSA Master', link: 'https://chat.whatsapp.com/DG9q1w9i3kq0nxuAC8sQ3f?mode=gi_t' },
+      'cipherville': { name: 'Cipherville', link: 'https://chat.whatsapp.com/E7nmvURBwp648XRANGoguY?mode=gi_t' },
+      'ethitech-mania': { name: 'Ethitech Mania', link: 'https://chat.whatsapp.com/EPnZ4QKNsesI2MnDOE7cfC?mode=gi_t' },
+    }
+
+    // Determine which cards to show
+    let groupsToShow: { name: string; link: string }[] = []
+
+    if (formData.event === 'all-events') {
+      groupsToShow = [GROUPS['dsa-masters'], GROUPS['cipherville'], GROUPS['ethitech-mania']]
+    } else if (formData.event && GROUPS[formData.event as keyof typeof GROUPS]) {
+      groupsToShow = [GROUPS[formData.event as keyof typeof GROUPS]]
+    }
+
     return (
       <div className="min-h-screen bg-[#080B1F] text-[#E6E9FF] font-sans selection:bg-[#00F2FF]/30 selection:text-[#00F2FF]">
         <Navigation />
-        <div className="pt-32 pb-20 px-4 min-h-screen flex items-center justify-center">
-          <HudFrame className="max-w-md w-full text-center py-12" glowing>
+        <div className="pt-32 pb-20 px-4 min-h-screen flex flex-col items-center justify-center">
+          <HudFrame className="max-w-2xl w-full text-center py-10 px-6" glowing>
             <div className="mb-6 flex justify-center">
-              <div className="w-16 h-16 rounded-full bg-[#00F2FF]/20 flex items-center justify-center border border-[#00F2FF]">
-                <svg className="w-8 h-8 text-[#00F2FF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <div className="w-20 h-20 rounded-full bg-[#00FF88]/10 flex items-center justify-center border border-[#00FF88] shadow-[0_0_20px_rgba(0,255,136,0.3)]">
+                <svg className="w-10 h-10 text-[#00FF88]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
             </div>
-            <h2 className="text-2xl font-display font-bold text-[#FFFFFF] mb-2">Thank You for Registration!</h2>
-            <p className="text-[#7D7DBE] mb-8">Your registration has been successfully submitted.</p>
-            <HudButton href="/" variant="primary">Back to Home</HudButton>
+
+            <h2 className="text-3xl font-display font-bold text-[#FFFFFF] mb-3">Registration Successful!</h2>
+            <p className="text-[#7D7DBE] text-lg mb-8 max-w-lg mx-auto">
+              You have successfully registered for <span className="text-[#00F2FF]">{EVENTS.find(e => e.id === formData.event)?.name}</span>.
+            </p>
+
+            <div className="bg-[#1A1C3D]/40 rounded-xl border border-[#3A3F7A] p-6 mb-8">
+              <h3 className="text-xl font-bold text-[#E6E9FF] mb-4 flex items-center justify-center gap-2">
+                <svg viewBox="0 0 448 512" fill="currentColor" className="w-6 h-6 text-[#25D366]">
+                  <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-31.9-28.2-68.1-28.2-106.2 0-110.6 90-200.5 200.5-200.5 53.6 0 104 20.9 141.9 58.9 37.9 37.9 58.9 88.3 58.9 141.9 0 110.8-89.9 200.5-200.5 200.5zm102.2-150c-5.6-2.8-33.1-16.3-38.3-18.2-5.1-1.9-8.9-2.8-12.6 2.8-3.7 5.6-14.3 18.2-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.6-30.3-17.1-41.5-4.5-11.1-9.1-9.6-12.6-9.8-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 33.1-13.5 37.7-26.6 4.6-13.1 4.6-24.4 3.2-26.6-1.4-2.3-5.1-3.7-10.7-6.5z" />
+                </svg>
+                Join Official WhatsApp Groups
+              </h3>
+              <p className="text-[#7D7DBE] text-sm mb-6">
+                Please join the respective groups to stay updated with event announcements, schedules, and more.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center">
+                {groupsToShow.map((group) => (
+                  <a
+                    key={group.name}
+                    href={group.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center p-4 rounded-lg bg-[#25D366]/10 border border-[#25D366]/30 hover:bg-[#25D366]/20 hover:border-[#25D366] transition-all duration-300 group w-full max-w-xs"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-[#25D366]/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                      <svg viewBox="0 0 448 512" fill="currentColor" className="w-6 h-6 text-[#25D366]">
+                        <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-31.9-28.2-68.1-28.2-106.2 0-110.6 90-200.5 200.5-200.5 53.6 0 104 20.9 141.9 58.9 37.9 37.9 58.9 88.3 58.9 141.9 0 110.8-89.9 200.5-200.5 200.5zm102.2-150c-5.6-2.8-33.1-16.3-38.3-18.2-5.1-1.9-8.9-2.8-12.6 2.8-3.7 5.6-14.3 18.2-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.6-30.3-17.1-41.5-4.5-11.1-9.1-9.6-12.6-9.8-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 33.1-13.5 37.7-26.6 4.6-13.1 4.6-24.4 3.2-26.6-1.4-2.3-5.1-3.7-10.7-6.5z" />
+                      </svg>
+                    </div>
+                    <span className="text-[#E6E9FF] font-bold text-sm text-center mb-1 group-hover:text-[#25D366] transition-colors">{group.name}</span>
+                    <span className="text-[#25D366] text-xs font-medium uppercase tracking-wider">Join Group</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <HudButton href="/" variant="primary" className="mt-4">Back to Home</HudButton>
           </HudFrame>
         </div>
         <Footer />
@@ -185,6 +237,7 @@ function RegisterForm() {
                 onChange={handleChange}
                 placeholder="Enter your full name"
                 className="w-full bg-[#080B1F]/50 border border-[#3A3F7A] rounded px-4 py-3 text-[#E6E9FF] focus:border-[#00F2FF] focus:outline-none focus:ring-1 focus:ring-[#00F2FF] transition-all placeholder:text-[#7D7DBE]/50"
+                suppressHydrationWarning
               />
               {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName}</p>}
             </div>
@@ -200,6 +253,7 @@ function RegisterForm() {
                   onChange={handleChange}
                   placeholder="e.g. 1601..."
                   className="w-full bg-[#080B1F]/50 border border-[#3A3F7A] rounded px-4 py-3 text-[#E6E9FF] focus:border-[#00F2FF] focus:outline-none focus:ring-1 focus:ring-[#00F2FF] transition-all placeholder:text-[#7D7DBE]/50"
+                  suppressHydrationWarning
                 />
                 {errors.rollNumber && <p className="text-red-400 text-xs mt-1">{errors.rollNumber}</p>}
               </div>
@@ -212,6 +266,7 @@ function RegisterForm() {
                   value={formData.year}
                   onChange={handleChange}
                   className="w-full bg-[#080B1F]/50 border border-[#3A3F7A] rounded px-4 py-3 text-[#E6E9FF] focus:border-[#00F2FF] focus:outline-none focus:ring-1 focus:ring-[#00F2FF] transition-all"
+                  suppressHydrationWarning
                 >
                   <option value="1">1st Year</option>
                   <option value="2">2nd Year</option>
@@ -265,6 +320,7 @@ function RegisterForm() {
                   onChange={handleChange}
                   placeholder="Enter your college name"
                   className="w-full bg-[#080B1F]/50 border border-[#3A3F7A] rounded px-4 py-3 text-[#E6E9FF] focus:border-[#00F2FF] focus:outline-none focus:ring-1 focus:ring-[#00F2FF] transition-all placeholder:text-[#7D7DBE]/50"
+                  suppressHydrationWarning
                 />
                 {errors.college && <p className="text-red-400 text-xs mt-1">{errors.college}</p>}
               </div>
@@ -280,6 +336,7 @@ function RegisterForm() {
                 onChange={handleChange}
                 placeholder="e.g. CSE, IT, ECE..."
                 className="w-full bg-[#080B1F]/50 border border-[#3A3F7A] rounded px-4 py-3 text-[#E6E9FF] focus:border-[#00F2FF] focus:outline-none focus:ring-1 focus:ring-[#00F2FF] transition-all placeholder:text-[#7D7DBE]/50"
+                suppressHydrationWarning
               />
               {errors.branch && <p className="text-red-400 text-xs mt-1">{errors.branch}</p>}
             </div>
@@ -296,6 +353,7 @@ function RegisterForm() {
                   onChange={handleChange}
                   placeholder="john@example.com"
                   className="w-full bg-[#080B1F]/50 border border-[#3A3F7A] rounded px-4 py-3 text-[#E6E9FF] focus:border-[#00F2FF] focus:outline-none focus:ring-1 focus:ring-[#00F2FF] transition-all placeholder:text-[#7D7DBE]/50"
+                  suppressHydrationWarning
                 />
                 {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
               </div>
@@ -315,6 +373,7 @@ function RegisterForm() {
                   }}
                   placeholder="10 digit mobile number"
                   className="w-full bg-[#080B1F]/50 border border-[#3A3F7A] rounded px-4 py-3 text-[#E6E9FF] focus:border-[#00F2FF] focus:outline-none focus:ring-1 focus:ring-[#00F2FF] transition-all placeholder:text-[#7D7DBE]/50"
+                  suppressHydrationWarning
                 />
                 {errors.phoneNumber && <p className="text-red-400 text-xs mt-1">{errors.phoneNumber}</p>}
               </div>
@@ -376,10 +435,10 @@ function RegisterForm() {
                         ${isSubmitting ? 'opacity-70 cursor-not-allowed' : 'group hover:shadow-[0_0_20px_rgba(0,242,255,0.4)]'}
                     `}
                 style={{
-                  background: 'rgba(0, 242, 255, 0.1)',
                   border: '1px solid #00F2FF',
                   color: '#00F2FF'
                 }}
+                suppressHydrationWarning
               >
                 {/* Hover animation */}
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-[#00F2FF]/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />

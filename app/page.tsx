@@ -2,12 +2,12 @@
 
 import dynamic from 'next/dynamic'
 import { Navigation } from '@/components/sections/navigation'
-import { HeroSection } from '@/components/sections/hero'
-import { AboutSection } from '@/components/sections/about-section'
-import { ProductsSection } from '@/components/sections/products-section'
-import { RoadmapSection } from '@/components/sections/roadmap-section'
-import { SponsorsSection } from '@/components/sections/sponsors-section'
-import { FaqSection } from '@/components/sections/faq-section'
+import { Hero } from '@/components/sections/hero'
+import { About } from '@/components/sections/about'
+import { Events } from '@/components/sections/events'
+import { Roadmap } from '@/components/sections/roadmap'
+import { Sponsors } from '@/components/sections/sponsors'
+import { Faq } from '@/components/sections/faq'
 
 import { Footer } from '@/components/sections/footer'
 import { ScrollProgress } from '@/components/animations/scroll-progress'
@@ -40,26 +40,26 @@ export default function HomePage() {
       {/* Main content */}
       <div className="relative z-10">
         {/* Hero Section - Immersive cosmic entry */}
-        <HeroSection />
+        <Hero />
 
         {/* About Section - Who we are */}
         <div id="about">
-          <AboutSection />
+          <About />
         </div>
 
         {/* Events Section - Our events cards */}
         <div id="events">
-          <ProductsSection />
+          <Events />
         </div>
 
         {/* Roadmap Section - The Journey timeline */}
-        <RoadmapSection />
+        <Roadmap />
 
         {/* Sponsors Section */}
-        <SponsorsSection />
+        <Sponsors />
 
         {/* FAQ Section */}
-        <FaqSection />
+        <Faq />
 
         {/* Footer */}
         <div id="contact">

@@ -308,7 +308,7 @@ const iconMap = {
   zap: <Zap className="w-6 h-6" />
 }
 
-export function RoadmapSection() {
+export function Roadmap() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const [visibleCards, setVisibleCards] = useState<boolean[]>([false, false, false])
   const [pathProgress, setPathProgress] = useState(0)

@@ -170,7 +170,6 @@ export function Footer() {
           </a>
         </div>
 
-        {/* Celestial decoration at bottom */}
         <div className="mt-8 flex justify-center gap-2 opacity-30">
           {FOOTER_STARS.map((star, i) => (
             <div

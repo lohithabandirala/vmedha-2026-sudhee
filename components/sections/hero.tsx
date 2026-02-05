@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { HudBadge } from '@/components/ui/hud-frame'
 import { HERO_LEFT_HUD, HERO_RIGHT_HUD, HERO_STARS } from '@/lib/seeded-random'
 
-export function HeroSection() {
+export function Hero() {
   const [mounted, setMounted] = useState(false)
   const [titleVisible, setTitleVisible] = useState(false)
   const [subtitleVisible, setSubtitleVisible] = useState(false)

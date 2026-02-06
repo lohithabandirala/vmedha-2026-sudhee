@@ -129,7 +129,7 @@ export function Hero() {
             REGISTER NOW
           </HudButton>
           <span className="text-sm font-medium text-[#00F2FF] tracking-wide animate-pulse shadow-black drop-shadow-md">
-            ✨ Free Registration for All Events
+            Free Registration for All Events
           </span>
         </div>
 

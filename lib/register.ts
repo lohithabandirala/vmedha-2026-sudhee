@@ -30,25 +30,29 @@ export interface RegistrationResult {
     error?: string
 }
 
+type DuplicateStatus = 'NONE' | 'SELF_EXISTS' | 'CONFLICT'
+
 /**
- * Checks if a user is already registered in a specific collection
- * Returns error message if duplicate found, null otherwise
+ * Checks duplication status:
+ * - NONE: Safe to register
+ * - SELF_EXISTS: User already registered (Skip)
+ * - CONFLICT: Phone number used by someone else (Error)
  */
-async function checkDuplicate(
+async function checkDuplicateStatus(
     collectionName: string,
     email: string,
     phoneNumber: string,
     sanitizedEmail: string
-): Promise<string | null> {
-    // 1. Check Email (ID based)
+): Promise<{ status: DuplicateStatus; message?: string }> {
+    // 1. Check Email (ID based) - Self Check
     const docRef = doc(db, collectionName, sanitizedEmail)
     const docSnap = await getDoc(docRef)
 
     if (docSnap.exists()) {
-        return `Email ${email} is already registered for ${formatEventName(collectionName)}`
+        return { status: 'SELF_EXISTS' }
     }
 
-    // 2. Check Phone Number (Query based)
+    // 2. Check Phone Number (Query based) - Conflict Check
     const phoneQuery = query(
         collection(db, collectionName),
         where('phoneNumber', '==', phoneNumber)
@@ -56,10 +60,15 @@ async function checkDuplicate(
     const phoneSnap = await getDocs(phoneQuery)
 
     if (!phoneSnap.empty) {
-        return `Phone number ${phoneNumber} is already registered for ${formatEventName(collectionName)}`
+        // If phone exists, ensure it's not the same person (edge case where email diff, phone same)
+        // Since we checked email above and it didn't exist, this implies a different email has this phone.
+        return {
+            status: 'CONFLICT',
+            message: `Phone number ${phoneNumber} is already associated with another registration.`
+        }
     }
 
-    return null
+    return { status: 'NONE' }
 }
 
 function formatEventName(id: string): string {
@@ -83,24 +92,36 @@ export async function submitRegistration(data: RegistrationData): Promise<Regist
             targetCollections = [data.event]
         }
 
-        // 1. Pre-check for duplicates in ALL target collections
-        // We want to fail fast and atomically (conceptually) - if one fails, don't register for any
+        const collectionsToWrite: string[] = []
+
+        // 1. Smart Deduplication Check
         for (const col of targetCollections) {
-            const errorMsg = await checkDuplicate(col, data.email, data.phoneNumber, sanitizedEmail)
-            if (errorMsg) {
+            const check = await checkDuplicateStatus(col, data.email, data.phoneNumber, sanitizedEmail)
+
+            if (check.status === 'CONFLICT') {
                 return {
                     success: false,
-                    message: errorMsg,
+                    message: check.message || 'Duplicate entry found.',
                     error: 'DUPLICATE_ENTRY'
                 }
+            } else if (check.status === 'NONE') {
+                collectionsToWrite.push(col)
+            }
+            // If SELF_EXISTS, acts as a "Skip", effectively preventing redundant data
+        }
+
+        if (collectionsToWrite.length === 0) {
+            return {
+                success: false,
+                message: 'You are already registered for the selected event(s).',
+                error: 'ALREADY_REGISTERED'
             }
         }
 
-        // 2. Register in all collections
-        // We can use a batch to ensure atomicity
+        // 2. Register in NEW collections only
         const batch = writeBatch(db)
 
-        targetCollections.forEach(col => {
+        collectionsToWrite.forEach(col => {
             const docRef = doc(db, col, sanitizedEmail)
             const eventData = {
                 ...data,
@@ -143,7 +164,8 @@ export async function submitRegistration(data: RegistrationData): Promise<Regist
             })
         }
 
-        targetCollections.forEach(col => {
+        // Only increment events that we ACTUALLY wrote to
+        collectionsToWrite.forEach(col => {
             increments[`events.${col}`] = increment(1)
         })
 
@@ -153,7 +175,9 @@ export async function submitRegistration(data: RegistrationData): Promise<Regist
 
         return {
             success: true,
-            message: 'Registration successful!'
+            message: collectionsToWrite.length < targetCollections.length
+                ? 'Registration updated! You are now registered for all selected events.'
+                : 'Registration successful!'
         }
 
     } catch (error: any) {

@@ -27,6 +27,9 @@ export const metadata: Metadata = {
     icon: '/VIVE_LE_TECH_logo.png',
     apple: '/VIVE_LE_TECH_logo.png',
   },
+  verification: {
+    google: '93arf0agxceeWmTot7YmBDY3I4V5LJuUfBDz7-cA6-A',
+  },
 }
 
 export const viewport = {

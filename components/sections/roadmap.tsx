@@ -280,7 +280,7 @@ const eventsData = [
   },
   {
     day: 2,
-    title: 'Cipherville',
+    title: 'CIPHERVILLE',
     rounds: 'Round 1: 17th February',
     date: 'Round 2: 18th February',
     iconType: 'lock' as const,
@@ -291,7 +291,7 @@ const eventsData = [
   },
   {
     day: 3,
-    title: 'Ethitech Mania',
+    title: 'ETHITECH MANIA',
     rounds: 'All Three Rounds: 17th & 18th February',
     date: '',
     iconType: 'zap' as const,

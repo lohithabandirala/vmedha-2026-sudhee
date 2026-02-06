@@ -54,13 +54,13 @@ export function Events() {
       domains: ['DSA', 'Coding']
     },
     {
-      title: 'Cipherville',
+      title: 'CIPHERVILLE',
       description:
         'Cipherville is a mystery-based problem-solving game where participants decode hidden clues to escape challenges. Players crack ciphers, analyze data, and apply logical thinking to progress through levels. Each solved clue unlocks the next mystery, testing reasoning, creativity, and teamwork.',
       domains: ['Detective Skills', 'DBMS']
     },
     {
-      title: 'Ethitech Mania',
+      title: 'ETHITECH MANIA',
       description:
         'Ethitech Mania is a thought-provoking competition that challenges participants on aptitude, logical reasoning, and ethical decision-making through real-world technology scenarios. It encourages critical thinking and responsible innovation in today\'s tech-driven world.',
       domains: ['Critical Thinking & Aptitude']

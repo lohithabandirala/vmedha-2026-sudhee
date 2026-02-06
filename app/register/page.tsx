@@ -21,8 +21,8 @@ interface FormData {
 
 const EVENTS = [
   { id: 'dsa-master', name: 'DSA MASTER CBIT' },
-  { id: 'cipherville', name: 'Cipherville' },
-  { id: 'ethitech-mania', name: 'Ethitech Mania' },
+  { id: 'cipherville', name: 'CIPHERVILLE' },
+  { id: 'ethitech-mania', name: 'ETHITECH MANIA' },
   { id: 'all-events', name: 'All 3 Events' }
 ]
 

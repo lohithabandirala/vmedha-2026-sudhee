@@ -125,7 +125,7 @@ export function Hero() {
         <div
           className="flex flex-col items-center justify-center mb-10 relative z-20 gap-3 animate-[hero-fade-up_0.8s_ease-out_1.1s_both]"
         >
-          <HudButton href="#events" variant="primary" className="text-base md:text-lg px-8 py-3 md:px-10 md:py-4 font-bold tracking-widest shadow-[0_0_20px_rgba(0,242,255,0.3)] hover:shadow-[0_0_30px_rgba(0,242,255,0.6)]">
+          <HudButton href="#timeline" variant="primary" className="text-base md:text-lg px-8 py-3 md:px-10 md:py-4 font-bold tracking-widest shadow-[0_0_20px_rgba(0,242,255,0.3)] hover:shadow-[0_0_30px_rgba(0,242,255,0.6)]">
             REGISTER NOW
           </HudButton>
           <span className="text-sm font-medium text-[#00F2FF] tracking-wide animate-pulse shadow-black drop-shadow-md">

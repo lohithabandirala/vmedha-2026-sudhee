@@ -21,7 +21,7 @@ export interface RegistrationData {
     year: string
     email: string
     phoneNumber: string
-    event: 'dsa-master' | 'cipherville' | 'ethitech-mania' | 'all-events'
+    events: string[] // Changed from single event to array
 }
 
 export interface RegistrationResult {
@@ -71,25 +71,20 @@ async function checkDuplicateStatus(
     return { status: 'NONE' }
 }
 
-function formatEventName(id: string): string {
-    const names: Record<string, string> = {
-        'dsa-master': 'DSA MASTER',
-        'cipherville': 'Cipherville',
-        'ethitech-mania': 'Ethitech Mania'
-    }
-    return names[id] || id
-}
-
 export async function submitRegistration(data: RegistrationData): Promise<RegistrationResult> {
     try {
         const sanitizedEmail = data.email.toLowerCase().trim().replace(/[.#$[\]]/g, '_')
 
-        let targetCollections: string[] = []
+        // Filter out invalid events just in case
+        const validEvents = ['dsa-master', 'cipherville', 'ethitech-mania']
+        const targetCollections = data.events.filter(e => validEvents.includes(e))
 
-        if (data.event === 'all-events') {
-            targetCollections = ['dsa-master', 'cipherville', 'ethitech-mania']
-        } else {
-            targetCollections = [data.event]
+        if (targetCollections.length === 0) {
+            return {
+                success: false,
+                message: 'No valid events selected.',
+                error: 'NO_EVENTS_SELECTED'
+            }
         }
 
         const collectionsToWrite: string[] = []
@@ -127,7 +122,10 @@ export async function submitRegistration(data: RegistrationData): Promise<Regist
                 ...data,
                 email: data.email.toLowerCase().trim(),
                 registeredAt: serverTimestamp(),
-                registrationSource: data.event // Track if they came via combo or direct
+                // Remove 'events' array from individual doc if not needed, or keep it. 
+                // We'll store the specific event this doc belongs to for clarity if exported.
+                registrationContext: col,
+                event: col // Maintain backward compatibility
             }
             batch.set(docRef, eventData)
         })

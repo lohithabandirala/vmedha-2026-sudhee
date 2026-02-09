@@ -80,9 +80,11 @@ export default function HomePage() {
         </div>
 
         {/* Roadmap Section - The Journey timeline */}
-        <ViewportLazy minHeight="100vh">
-          <Roadmap />
-        </ViewportLazy>
+        <div id="timeline">
+          <ViewportLazy minHeight="100vh">
+            <Roadmap />
+          </ViewportLazy>
+        </div>
 
         {/* Sponsors Section */}
         <ViewportLazy minHeight="40vh">

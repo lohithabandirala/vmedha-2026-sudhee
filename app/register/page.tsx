@@ -16,7 +16,7 @@ interface FormData {
   year: '1' | '2' | '3' | '4'
   email: string
   phoneNumber: string
-  event: 'dsa-master' | 'cipherville' | 'ethitech-mania' | 'all-events' | ''
+  events: string[]
 }
 
 const EVENTS = [
@@ -37,13 +37,13 @@ function RegisterForm() {
     year: '1',
     email: '',
     phoneNumber: '',
-    event: ''
+    events: []
   })
 
   useEffect(() => {
     const eventParam = searchParams.get('event')
     if (eventParam && EVENTS.some(e => e.id === eventParam)) {
-      setFormData(prev => ({ ...prev, event: eventParam as any }))
+      setFormData(prev => ({ ...prev, events: [eventParam] }))
     }
   }, [searchParams])
 
@@ -81,7 +81,7 @@ function RegisterForm() {
     else if (!phoneRegex.test(formData.phoneNumber)) newErrors.phoneNumber = 'Phone number must be exactly 10 digits'
 
     // Event
-    if (!formData.event) newErrors.event = 'Please select an event'
+    if (formData.events.length === 0) newErrors.events = 'Please select at least one event'
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -93,6 +93,51 @@ function RegisterForm() {
     // Clear error when user types
     if (errors[name as keyof FormData]) {
       setErrors(prev => ({ ...prev, [name]: undefined }))
+    }
+  }
+
+  const toggleEvent = (eventId: string) => {
+    setFormData(prev => {
+      const current = prev.events
+      let newEvents: string[] = []
+
+      if (eventId === 'all-events') {
+        // Toggle All Logic
+        const allRealEvents = EVENTS.filter(e => e.id !== 'all-events').map(e => e.id)
+        const isAllSelected = current.includes('all-events')
+
+        if (isAllSelected) {
+          // Deselect all
+          newEvents = []
+        } else {
+          // Select all
+          newEvents = [...allRealEvents, 'all-events']
+        }
+      } else {
+        // Toggle Individual Logic
+        const isSelected = current.includes(eventId)
+        let updated = isSelected
+          ? current.filter(e => e !== eventId)
+          : [...current, eventId]
+
+        // Check if all real events are now selected
+        const allRealEvents = EVENTS.filter(e => e.id !== 'all-events').map(e => e.id)
+        const areAllRealSelected = allRealEvents.every(id => updated.includes(id))
+
+        if (areAllRealSelected) {
+          if (!updated.includes('all-events')) updated.push('all-events')
+        } else {
+          updated = updated.filter(id => id !== 'all-events')
+        }
+
+        newEvents = updated
+      }
+
+      return { ...prev, events: newEvents }
+    })
+
+    if (errors.events) {
+      setErrors(prev => ({ ...prev, events: undefined }))
     }
   }
 
@@ -112,7 +157,8 @@ function RegisterForm() {
         year: formData.year,
         email: formData.email,
         phoneNumber: formData.phoneNumber,
-        event: formData.event as any
+        // Filter out 'all-events' ID before sending to backend
+        events: formData.events.filter(e => e !== 'all-events')
       })
 
       if (result.success) {
@@ -138,13 +184,9 @@ function RegisterForm() {
     }
 
     // Determine which cards to show
-    let groupsToShow: { name: string; link: string }[] = []
-
-    if (formData.event === 'all-events') {
-      groupsToShow = [GROUPS['dsa-master'], GROUPS['cipherville'], GROUPS['ethitech-mania']]
-    } else if (formData.event && GROUPS[formData.event as keyof typeof GROUPS]) {
-      groupsToShow = [GROUPS[formData.event as keyof typeof GROUPS]]
-    }
+    const groupsToShow = formData.events
+      .map(id => GROUPS[id as keyof typeof GROUPS])
+      .filter(Boolean)
 
     return (
       <div className="min-h-screen bg-[#080B1F] text-[#E6E9FF] font-sans selection:bg-[#00F2FF]/30 selection:text-[#00F2FF]">
@@ -161,7 +203,9 @@ function RegisterForm() {
 
             <h2 className="text-3xl font-display font-bold text-[#FFFFFF] mb-3">Registration Successful!</h2>
             <p className="text-[#7D7DBE] text-lg mb-8 max-w-lg mx-auto">
-              You have successfully registered for <span className="text-[#00F2FF]">{EVENTS.find(e => e.id === formData.event)?.name}</span>.
+              You have successfully registered for <span className="text-[#00F2FF]">
+                {formData.events.map(id => EVENTS.find(e => e.id === id)?.name).join(', ')}
+              </span>.
             </p>
 
             <div className="bg-[#1A1C3D]/40 rounded-xl border border-[#3A3F7A] p-6 mb-8">
@@ -398,39 +442,52 @@ function RegisterForm() {
 
             {/* Event Selection */}
             <div className="space-y-4 pt-4 border-t border-[#3A3F7A]/30">
-              <label className="text-sm font-medium text-[#00F2FF] uppercase tracking-wider block mb-2">Select Event to Register</label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {EVENTS.map((evt) => (
-                  <label
-                    key={evt.id}
-                    className={`
-                                relative p-4 rounded-lg border cursor-pointer transition-all duration-300
-                                ${formData.event === evt.id
-                        ? 'bg-[#00F2FF]/10 border-[#00F2FF] shadow-[0_0_15px_rgba(0,242,255,0.2)]'
-                        : 'bg-[#080B1F]/30 border-[#3A3F7A] hover:border-[#00F2FF]/50 hover:bg-[#00F2FF]/5'
-                      }
-                            `}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${formData.event === evt.id ? 'border-[#00F2FF]' : 'border-[#7D7DBE]'}`}>
-                        {formData.event === evt.id && <div className="w-2 h-2 rounded-full bg-[#00F2FF]" />}
-                      </div>
-                    </div>
-                    <span className={`block font-display font-bold ${formData.event === evt.id ? 'text-[#FFFFFF]' : 'text-[#E6E9FF]'}`}>
-                      {evt.name}
-                    </span>
-                    <input
-                      type="radio"
-                      name="event"
-                      value={evt.id}
-                      checked={formData.event === evt.id}
-                      onChange={handleChange}
-                      className="hidden"
-                    />
-                  </label>
-                ))}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
+                <label className="text-sm font-medium text-[#00F2FF] uppercase tracking-wider block">Select Event(s) to Register</label>
+                <span className="text-xs text-[#00F2FF]/70 bg-[#00F2FF]/10 px-2 py-1 rounded border border-[#00F2FF]/20">
+                  Tip: You can select multiple events
+                </span>
               </div>
-              {errors.event && <p className="text-red-400 text-xs mt-1">{errors.event}</p>}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {EVENTS.map((evt) => {
+                  const isSelected = formData.events.includes(evt.id)
+                  return (
+                    <label
+                      key={evt.id}
+                      className={`
+                                  relative p-4 rounded-lg border cursor-pointer transition-all duration-300
+                                  ${isSelected
+                          ? 'bg-[#00F2FF]/10 border-[#00F2FF] shadow-[0_0_15px_rgba(0,242,255,0.2)]'
+                          : 'bg-[#080B1F]/30 border-[#3A3F7A] hover:border-[#00F2FF]/50 hover:bg-[#00F2FF]/5'
+                        }
+                              `}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${isSelected ? 'border-[#00F2FF] bg-[#00F2FF]' : 'border-[#7D7DBE]'}`}>
+                          {isSelected && (
+                            <svg className="w-3.5 h-3.5 text-black font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                          )}
+                        </div>
+                      </div>
+                      <span className={`block font-display font-bold ${isSelected ? 'text-[#FFFFFF]' : 'text-[#E6E9FF]'}`}>
+                        {evt.name}
+                      </span>
+                      <input
+                        type="checkbox"
+                        name="events"
+                        value={evt.id}
+                        checked={isSelected}
+                        onChange={() => toggleEvent(evt.id)}
+                        className="hidden"
+                      />
+                    </label>
+                  )
+                })}
+              </div>
+              {errors.events && <p className="text-red-400 text-xs mt-1">{errors.events}</p>}
             </div>
 
 
